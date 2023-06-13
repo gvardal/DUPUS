@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositorie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DUPUS_API", "DUPUS_API\DUPUS_API.csproj", "{1531668D-BA9C-43AD-BE75-200E9B6300E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{798BCD6B-CA89-4A88-A4EF-F2C0823157A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1531668D-BA9C-43AD-BE75-200E9B6300E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1531668D-BA9C-43AD-BE75-200E9B6300E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1531668D-BA9C-43AD-BE75-200E9B6300E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{798BCD6B-CA89-4A88-A4EF-F2C0823157A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{798BCD6B-CA89-4A88-A4EF-F2C0823157A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{798BCD6B-CA89-4A88-A4EF-F2C0823157A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{798BCD6B-CA89-4A88-A4EF-F2C0823157A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

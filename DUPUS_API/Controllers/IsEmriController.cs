@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Repositories.Contracts;
+using Services.Contracts;
 
 namespace DUPUS_API.Controllers
 {
@@ -8,9 +8,9 @@ namespace DUPUS_API.Controllers
     [ApiController]
     public class IsEmriController : ControllerBase
     {
-        private readonly IRepositoryManager _manager;
+        private readonly IServiceManager _manager;
 
-        public IsEmriController(IRepositoryManager manager)
+        public IsEmriController(IServiceManager manager)
         {
             _manager = manager;
         }
@@ -18,8 +18,8 @@ namespace DUPUS_API.Controllers
         [HttpGet]
         public IActionResult GetAllIsEmri()
         {
-            var entity = _manager.IsEmri.GetAllIsEmriList().Take(5);
-            if(entity is null) 
+            var entity = _manager.IsEmriService.GetAllIsEmri().Take(5);
+            if (entity is null)
                 return NotFound();
             return Ok(entity);
         }
@@ -27,7 +27,7 @@ namespace DUPUS_API.Controllers
         [HttpGet("{isEmriId:int}")]
         public IActionResult GetIsEmriByIsEmriId([FromRoute(Name = "isEmriId")] int isEmriId)
         {
-            var entity = _manager.IsEmri.IsEmriById(isEmriId);
+            var entity = _manager.IsEmriService.GetIsEmriById(isEmriId);
             if (entity is null)
                 return NotFound();
             return Ok(entity);
