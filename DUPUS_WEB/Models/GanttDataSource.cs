@@ -1,21 +1,20 @@
 ﻿namespace DUPUS_WEB.Models
 {
-    public class GanttDataSource
+    public partial class ProjectData
     {
-        public int? TaskId { get; set; }
-        public string? TaskName { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public int? Duration { get; set; }
-        public int? Progress { get; set; }
-        public string? Predecessor { get; set; }
-        public int[]? ResourceId { get; set; }
-        public List<GanttDataSource>? SubTasks { get; set; }
-    }
+        public class GanttDataSource
+        {
+            public int taskId { get; set; }
+            public string? taskName { get; set; }
+            public DateTime? startDate { get; set; }
+            public DateTime? endDate { get; set; }
+            public string? duration { get; set; }
+            public int progress { get; set; }
+            public string? predecessor { get; set; }
+            public int? parentID { get; set; }
+            public List<GanttResourceModel>? resources { get; set; }
+            public string? customColumn { get; set; }
 
-    public class GanttResources
-    {
-        public int? ResourceId { get; set; }
-        public string? ResourceName { get; set; }
+        }
     }
 }

@@ -1,12 +1,14 @@
-﻿namespace DUPUS_WEB.Models
+﻿using static DUPUS_WEB.Models.ProjectData;
+
+namespace DUPUS_WEB.Models
 {
-    public class CRUDModel
+    public class GanttCRUDModel
     {
         public List<GanttDataSource>? Added { get; set; }
         public List<GanttDataSource>? Changed { get; set; }
         public List<GanttDataSource>? Deleted { get; set; }
-        public object? Key { get; set; }
+        public GanttDataSource? Value { get; set; }
+        public int? Key { get; set; }
         public string? Action { get; set; }
-        public string? Table { get; set; }
     }
 }

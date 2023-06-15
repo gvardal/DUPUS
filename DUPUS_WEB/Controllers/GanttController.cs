@@ -1,179 +1,122 @@
 ﻿using DUPUS_WEB.Models;
 using Microsoft.AspNetCore.Mvc;
 using Syncfusion.EJ2.Base;
+using static DUPUS_WEB.Models.ProjectData;
 
 namespace DUPUS_WEB.Controllers
 {
-    public class GanttController : Controller
+    public partial class GanttController : Controller
     {
+        public List<GanttDataSource> DataList = new();
+        
         public IActionResult Index()
         {
-
-            List<GanttDataSource> GanttDataSourceCollection = new List<GanttDataSource>();
-
-
-            GanttDataSource Record1 = new GanttDataSource()
-            {
-                TaskId = 1,
-                TaskName = "Project initiation",
-                StartDate = new DateTime(2019, 04, 02),
-                EndDate = new DateTime(2019, 04, 21),
-                SubTasks = new List<GanttDataSource>(),
-            };
-            GanttDataSource Child1 = new GanttDataSource()
-            {
-                TaskId = 2,
-                TaskName = "Identify site location",
-                StartDate = new DateTime(2019, 04, 02),
-                Duration = 4,
-                Progress = 50,
-                ResourceId = new int[] { 1 },
-            };
-            GanttDataSource Child2 = new GanttDataSource()
-            {
-                TaskId = 3,
-                TaskName = "Perform soil test",
-                StartDate = new DateTime(2019, 04, 02),
-                Duration = 4,
-                Progress = 50,
-                Predecessor = "2FS",
-                ResourceId = new int[] { 2, 3, 5 },
-            };
-            GanttDataSource Child3 = new GanttDataSource()
-            {
-                TaskId = 4,
-                TaskName = "Soil test approval",
-                StartDate = new DateTime(2019, 04, 02),
-                Duration = 4,
-                Predecessor = "3FS",
-                Progress = 50,
-            };
-            Record1.SubTasks.Add(Child1);
-            Record1.SubTasks.Add(Child2);
-            Record1.SubTasks.Add(Child3);
-
-            GanttDataSource Record2 = new GanttDataSource()
-            {
-                TaskId = 5,
-                TaskName = "Project estimation",
-                StartDate = new DateTime(2019, 04, 02),
-                EndDate = new DateTime(2019, 04, 21),
-                SubTasks = new List<GanttDataSource>(),
-            };
-            GanttDataSource Child4 = new GanttDataSource()
-            {
-                TaskId = 6,
-                TaskName = "Develop floor plan for estimation",
-                StartDate = new DateTime(2019, 04, 04),
-                Duration = 3,
-                Progress = 50,
-                ResourceId = new int[] { 4 },
-
-            };
-            GanttDataSource Child5 = new GanttDataSource()
-            {
-                TaskId = 7,
-                TaskName = "List materials",
-                StartDate = new DateTime(2019, 04, 14),
-                Duration = 3,
-                Progress = 50,
-                Predecessor = "6SS",
-                ResourceId = new int[] { 4, 8 },
-
-            };
-            Record2.SubTasks.Add(Child4);
-            Record2.SubTasks.Add(Child5);
-
-            GanttDataSourceCollection.Add(Record1);
-            GanttDataSourceCollection.Add(Record2);
-
-
-            return View(GanttDataSourceCollection);
+            ViewBag.ProjectResources = GetResource();
+            return View();
         }
 
-        public IActionResult UrlDatasource(DataManagerRequest dm)
+        public IActionResult UrlDatasource([FromBody] DataManagerRequest dm)
         {
-            List<GanttDataSource> GanttDataSourceCollection = new List<GanttDataSource>();
+            ProjectData projectData = new ProjectData();
+            DataList = projectData.GetUrlDataSource();
+            return dm.RequiresCounts ? Json(new { result = DataList, count = DataList.Count }) : Json(DataList);
+        }      
 
 
-            GanttDataSource Record1 = new GanttDataSource()
+        public IActionResult BatchUpdate([FromBody] CRUDModel batchmodel)
+        {
+            if (batchmodel != null)
             {
-                TaskId = 1,
-                TaskName = "Project initiation",
-                StartDate = new DateTime(2019, 04, 02),
-                EndDate = new DateTime(2019, 04, 21),
-                SubTasks = new List<GanttDataSource>(),
-            };
-            GanttDataSource Child1 = new GanttDataSource()
-            {
-                TaskId = 2,
-                TaskName = "Identify site location",
-                StartDate = new DateTime(2019, 04, 02),
-                Duration = 4,
-                Progress = 50,
-                ResourceId = new int[] { 1 },
-            };
-            GanttDataSource Child2 = new GanttDataSource()
-            {
-                TaskId = 3,
-                TaskName = "Perform soil test",
-                StartDate = new DateTime(2019, 04, 02),
-                Duration = 4,
-                Progress = 50,
-                Predecessor = "2FS",
-                ResourceId = new int[] { 2, 3, 5 },
-            };
-            GanttDataSource Child3 = new GanttDataSource()
-            {
-                TaskId = 4,
-                TaskName = "Soil test approval",
-                StartDate = new DateTime(2019, 04, 02),
-                Duration = 4,
-                Predecessor = "3FS",
-                Progress = 50,
-            };
-            Record1.SubTasks.Add(Child1);
-            Record1.SubTasks.Add(Child2);
-            Record1.SubTasks.Add(Child3);
+                if (batchmodel.Changed != null)
+                {
+                    for (var i = 0; i < batchmodel.Changed.Count(); i++)
+                    {
+                        var value = batchmodel.Changed[i];
+                        Console.WriteLine(value);
+                        //GanttDataSource result = DataList.Where(or => or.taskId == value.taskId).FirstOrDefault();
+                        //result.taskId = value.taskId;
+                        //result.taskName = value.taskName;
+                        //result.startDate = value.startDate;
+                        //result.endDate = value.endDate;
+                        //result.duration = value.duration;
+                        //result.progress = value.progress;
+                        //result.predecessor = value.predecessor;
+                        //result.resources = value.resources;
+                        //result.parentID = value.parentID;
+                        //result.customColumn = value.customColumn;
+                    }
+                }
+                if (batchmodel.Deleted != null)
+                {
+                    for (var i = 0; i < batchmodel.Deleted.Count(); i++)
+                    {
+                        var value = batchmodel.Deleted[i];
+                        Console.WriteLine(value);
+                        //DataList.Remove(DataList.Where(or => or.taskId == batchmodel.Deleted[i].taskId).FirstOrDefault());
+                        //RemoveChildRecords(batchmodel.Deleted[i].taskId);
+                    }
+                }
+                if (batchmodel.Added != null)
+                {
+                    for (var i = 0; i < batchmodel.Added.Count(); i++)
+                    {
+                        var value = batchmodel.Added[i];
+                        Console.WriteLine(value);
+                        //DataList.Insert(0, batchmodel.Added[i]);
+                    }
+                }
+            }
+            return Json(new { addedRecords = batchmodel?.Added, changedRecords = batchmodel?.Changed, deletedRecords = batchmodel?.Deleted, result = DataList, count = DataList.Count });
+        }
+        
 
-            GanttDataSource Record2 = new GanttDataSource()
+        public static List<ResourceGroupCollection> GetResource()
+        {
+            List<ResourceGroupCollection> GanttResourcesCollection = new List<ResourceGroupCollection>();
+
+            ResourceGroupCollection Record1 = new ResourceGroupCollection()
             {
-                TaskId = 5,
-                TaskName = "Project estimation",
-                StartDate = new DateTime(2019, 04, 02),
-                EndDate = new DateTime(2019, 04, 21),
-                SubTasks = new List<GanttDataSource>(),
+                resourceId = 1,
+                resourceName = "Martin Tamer"
             };
-            GanttDataSource Child4 = new GanttDataSource()
+            ResourceGroupCollection Record2 = new ResourceGroupCollection()
             {
-                TaskId = 6,
-                TaskName = "Develop floor plan for estimation",
-                StartDate = new DateTime(2019, 04, 04),
-                Duration = 3,
-                Progress = 50,
-                ResourceId = new int[] { 4 },
-
+                resourceId = 2,
+                resourceName = "Rose Fuller"
             };
-            GanttDataSource Child5 = new GanttDataSource()
+            ResourceGroupCollection Record3 = new ResourceGroupCollection()
             {
-                TaskId = 7,
-                TaskName = "List materials",
-                StartDate = new DateTime(2019, 04, 14),
-                Duration = 3,
-                Progress = 50,
-                Predecessor = "6SS",
-                ResourceId = new int[] { 4, 8 },
-
+                resourceId = 3,
+                resourceName = "Margaret Buchanan"
             };
-            Record2.SubTasks.Add(Child4);
-            Record2.SubTasks.Add(Child5);
+            ResourceGroupCollection Record4 = new ResourceGroupCollection()
+            {
+                resourceId = 4,
+                resourceName = "Fuller King"
+            };
+            ResourceGroupCollection Record5 = new ResourceGroupCollection()
+            {
+                resourceId = 5,
+                resourceName = "Davolio Fuller"
+            };
+            ResourceGroupCollection Record6 = new ResourceGroupCollection()
+            {
+                resourceId = 6,
+                resourceName = "Van Jack"
+            };
+            GanttResourcesCollection.Add(Record1);
+            GanttResourcesCollection.Add(Record2);
+            GanttResourcesCollection.Add(Record3);
+            GanttResourcesCollection.Add(Record4);
+            GanttResourcesCollection.Add(Record5);
+            GanttResourcesCollection.Add(Record6);
+            return GanttResourcesCollection;
+        }
 
-            GanttDataSourceCollection.Add(Record1);
-            GanttDataSourceCollection.Add(Record2);
-
-            
-            var count = GanttDataSourceCollection.Count();
-            return Json(new { result = GanttDataSourceCollection, count = count });
+        public class ResourceGroupCollection
+        {
+            public int resourceId { get; set; }
+            public string? resourceName { get; set; }
         }
     }
 }

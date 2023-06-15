@@ -1,41 +1,13 @@
-﻿@model List<GanttDataSource>
-
-@{
-
-}
-
-
-@*<div class="row">
-    <div class="col-12">
-        <ejs-gantt id='Gantt' height="750px">
-            <e-data-manager url="/Home/UrlDatasource" adaptor="UrlAdaptor" batchUrl="Home/BatchSave"></e-data-manager>
-            <e-gantt-taskfields id="TaskId" name="TaskName" startDate="StartDate" endDate="EndDate" resourceInfo="ResourceId"
-                                duration="Duration" progress="Progress" child="SubTasks" dependency="Predecessor">
-            </e-gantt-taskfields>
-            <e-gantt-columns>
-                <e-gantt-column field="TaskId" headerText="Task ID" textAlign="Left" width="90"></e-gantt-column>
-                <e-gantt-column field="TaskName" headerText="Task Name" width="auto"></e-gantt-column>
-            </e-gantt-columns>
-            @*<e-gantt-labelSettings leftLabel="${if(ResourceId)}${ResourceId}${/if}" rightLabel="TaskName"></e-gantt-labelSettings>
-            <e-gantt-splitterSettings position="30%"></e-gantt-splitterSettings>
-            <e-gantt-timelinesettings timelineViewMode="None"></e-gantt-timelinesettings>
-            <e-gantt-editsettings allowAdding="true" allowEditing="true" allowTaskbarEditing="true"></e-gantt-editsettings>
-            <e-gantt-resourcefields id="ResourceId" name="ResourceName" unit="Unit"></e-gantt-resourcefields>
-        </ejs-gantt>
-    </div>
-</div>*@
-
-<ejs-gantt id='Gantt' dataSource="@Model" height="600px" toolbar="@(new List<string>() { "Add"})">
-    <e-gantt-taskfields id="TaskId" name="TaskName" startDate="StartDate"
-                        duration="Duration" progress="Progress" dependency="Predecessor" child="SubTasks">    
+﻿<ejs-gantt id='RemoteData' allowFiltering="true" allowRowDragAndDrop="true"
+           treeColumnIndex="0" height="600px" resources="@ViewBag.ProjectResources" 
+           toolbar="@(new List<string>() { "Add","Indent","Outdent", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll" })">
+    <e-data-manager url="/Gantt/UrlDatasource" adaptor="UrlAdaptor" batchUrl="Gantt/BatchUpdate"></e-data-manager>
+    <e-gantt-taskfields id="taskId" name="taskName" startDate="startDate"
+                        duration="duration" progress="progress" dependency="predecessor" parentID="parentID"
+                        resourceInfo="resources">
     </e-gantt-taskfields>
-    <e-gantt-columns>
-        <e-gantt-column field="TaskId" headerText="Task ID" textAlign="Left" width="90"></e-gantt-column>
-        <e-gantt-column field="TaskName" headerText="Task Name" width="auto"></e-gantt-column>
-    </e-gantt-columns>
-    <e-gantt-editsettings allowAdding="true" allowTaskbarEditing="true" mode="Auto"></e-gantt-editsettings>
+    <e-gantt-resourcefields id="resourceId" name="resourceName"></e-gantt-resourcefields>
+    <e-gantt-editsettings allowAdding="true" allowEditing="true" allowDeleting="true"
+                          allowTaskbarEditing="true" showDeleteConfirmDialog="true"></e-gantt-editsettings>
+    <e-gantt-labelSettings rightLabel="resources"></e-gantt-labelSettings>
 </ejs-gantt>
-
-
-
-
