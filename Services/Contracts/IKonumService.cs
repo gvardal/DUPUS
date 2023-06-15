@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Dtos;
+using Entities.Models;
 
 namespace Services.Contracts
 {
@@ -6,6 +7,6 @@ namespace Services.Contracts
     {
         IEnumerable<UYKonum> GetAllKonumList();
         IEnumerable<UYKonum> GetAllKonumByKonumId(byte id);
-
+        IEnumerable<GanttResourceGroupDto> GanttResourceGroup(byte id);
     }
 }
