@@ -20,8 +20,8 @@ namespace Services
         public IEnumerable<GanttResourceGroupDto> GanttResourceGroup(byte id)
         {
             var konumList = _manager.UYKonum.GetAllKonumByKonumId(id);
-            var resourceGroup = _mapper.Map<GanttResourceGroupDto>(konumList);
-            return null;
+            var resourceGroup = _mapper.Map<List<GanttResourceGroupDto>>(konumList);
+            return resourceGroup;
         }
 
         public IEnumerable<UYKonum> GetAllKonumByKonumId(byte id) => _manager.UYKonum.GetAllKonumByKonumId(id);

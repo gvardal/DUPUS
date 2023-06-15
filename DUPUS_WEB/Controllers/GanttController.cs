@@ -1,5 +1,6 @@
 ﻿using DUPUS_WEB.Models;
 using Microsoft.AspNetCore.Mvc;
+using Services.Contracts;
 using Syncfusion.EJ2.Base;
 using static DUPUS_WEB.Models.ProjectData;
 
@@ -7,8 +8,15 @@ namespace DUPUS_WEB.Controllers
 {
     public partial class GanttController : Controller
     {
+        private readonly IServiceManager _manager;
+
+        public GanttController(IServiceManager manager)
+        {
+            _manager = manager;
+        }
+
         public List<GanttDataSource> DataList = new();
-        
+
         public IActionResult Index()
         {
             ViewBag.ProjectResources = GetResource();
@@ -70,46 +78,58 @@ namespace DUPUS_WEB.Controllers
         }
         
 
-        public static List<ResourceGroupCollection> GetResource()
+        public List<ResourceGroupCollection> GetResource()
         {
             List<ResourceGroupCollection> GanttResourcesCollection = new List<ResourceGroupCollection>();
+            var resources = _manager.KonumService.GanttResourceGroup(21);
+            if (resources != null)
+            {
+                foreach (var resource in resources)
+                {
+                    GanttResourcesCollection.Add(new ResourceGroupCollection
+                    {
+                       resourceId = resource.KonumID,
+                       resourceName = resource.KonumKodu
+                    });
+                }
+            }
 
-            ResourceGroupCollection Record1 = new ResourceGroupCollection()
-            {
-                resourceId = 1,
-                resourceName = "Martin Tamer"
-            };
-            ResourceGroupCollection Record2 = new ResourceGroupCollection()
-            {
-                resourceId = 2,
-                resourceName = "Rose Fuller"
-            };
-            ResourceGroupCollection Record3 = new ResourceGroupCollection()
-            {
-                resourceId = 3,
-                resourceName = "Margaret Buchanan"
-            };
-            ResourceGroupCollection Record4 = new ResourceGroupCollection()
-            {
-                resourceId = 4,
-                resourceName = "Fuller King"
-            };
-            ResourceGroupCollection Record5 = new ResourceGroupCollection()
-            {
-                resourceId = 5,
-                resourceName = "Davolio Fuller"
-            };
-            ResourceGroupCollection Record6 = new ResourceGroupCollection()
-            {
-                resourceId = 6,
-                resourceName = "Van Jack"
-            };
-            GanttResourcesCollection.Add(Record1);
-            GanttResourcesCollection.Add(Record2);
-            GanttResourcesCollection.Add(Record3);
-            GanttResourcesCollection.Add(Record4);
-            GanttResourcesCollection.Add(Record5);
-            GanttResourcesCollection.Add(Record6);
+            //ResourceGroupCollection Record1 = new ResourceGroupCollection()
+            //{
+            //    resourceId = 1,
+            //    resourceName = "Martin Tamer"
+            //};
+            //ResourceGroupCollection Record2 = new ResourceGroupCollection()
+            //{
+            //    resourceId = 2,
+            //    resourceName = "Rose Fuller"
+            //};
+            //ResourceGroupCollection Record3 = new ResourceGroupCollection()
+            //{
+            //    resourceId = 3,
+            //    resourceName = "Margaret Buchanan"
+            //};
+            //ResourceGroupCollection Record4 = new ResourceGroupCollection()
+            //{
+            //    resourceId = 4,
+            //    resourceName = "Fuller King"
+            //};
+            //ResourceGroupCollection Record5 = new ResourceGroupCollection()
+            //{
+            //    resourceId = 5,
+            //    resourceName = "Davolio Fuller"
+            //};
+            //ResourceGroupCollection Record6 = new ResourceGroupCollection()
+            //{
+            //    resourceId = 6,
+            //    resourceName = "Van Jack"
+            //};
+            //GanttResourcesCollection.Add(Record1);
+            //GanttResourcesCollection.Add(Record2);
+            //GanttResourcesCollection.Add(Record3);
+            //GanttResourcesCollection.Add(Record4);
+            //GanttResourcesCollection.Add(Record5);
+            //GanttResourcesCollection.Add(Record6);
             return GanttResourcesCollection;
         }
 

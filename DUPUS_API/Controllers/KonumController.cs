@@ -24,9 +24,19 @@ namespace DUPUS_API.Controllers
         }
 
         [HttpGet("{KonumTuruId:int}")]
-        public IActionResult GetIsEmriByIsEmriId([FromRoute(Name = "KonumTuruId")] byte konumTuruId)
+        public IActionResult GetAllKonumByKonumId([FromRoute(Name = "KonumTuruId")] byte konumTuruId)
         {
             var entity = _manager.KonumService.GetAllKonumByKonumId(konumTuruId);
+            if (entity is null)
+                return NotFound();
+            return Ok(entity);
+        }
+
+        [HttpGet]
+        [Route("GanttResourceGroup")]
+        public IActionResult GetGanttResourceGroup([FromQuery(Name ="KonumTuru")]byte id)
+        {
+            var entity = _manager.KonumService.GanttResourceGroup(id);
             if (entity is null)
                 return NotFound();
             return Ok(entity);
