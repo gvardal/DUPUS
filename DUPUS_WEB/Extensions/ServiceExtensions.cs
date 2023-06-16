@@ -4,7 +4,7 @@ using Repositories.EFCore;
 using Services;
 using Services.Contracts;
 
-namespace DUPUS_API.Extensions
+namespace DUPUS_WEB.Extensions
 {
     public static class ServiceExtensions
     {

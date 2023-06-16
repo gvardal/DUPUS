@@ -2,7 +2,7 @@
 {
     public partial class ProjectData
     {
-        public class GanttResourceModel
+        public class GanttResource
         {
             public int resourceId { get; set; }
             public int? ResourceUnit { get; set; }

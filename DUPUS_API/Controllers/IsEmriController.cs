@@ -16,18 +16,50 @@ namespace DUPUS_API.Controllers
         }
 
         [HttpGet]
+        [Route("IsEmriListesi")]
         public IActionResult GetAllIsEmri()
         {
-            var entity = _manager.IsEmriService.GetAllIsEmri().Take(5);
+            var entity = _manager.IsEmriService.GetAllIsEmri().Take(50);
             if (entity is null)
                 return NotFound();
             return Ok(entity);
         }
 
-        [HttpGet("{isEmriId:int}")]
-        public IActionResult GetIsEmriByIsEmriId([FromRoute(Name = "isEmriId")] int isEmriId)
+        [HttpGet]
+        [Route("IsEmriListesiById")]
+        public IActionResult GetIsEmriByIsEmriId([FromQuery] int isEmriId)
         {
             var entity = _manager.IsEmriService.GetIsEmriById(isEmriId);
+            if (entity is null)
+                return NotFound();
+            return Ok(entity);
+        }
+
+        [HttpGet]
+        [Route("IsEmriDurumuListesi")]
+        public IActionResult GetAllIsEmriDurum()
+        {
+            var entity = _manager.IsEmriService.GetAllIsEmriDurumu();
+            if (entity is null)
+                return NotFound();
+            return Ok(entity);
+        }
+
+        [HttpGet]
+        [Route("IsEmriDurumuById")]
+        public IActionResult GetIsEmriDurumById([FromQuery] int id)
+        {
+            var entity = _manager.IsEmriService.GetIsEmriDurumuById(id);
+            if (entity is null)
+                return NotFound();
+            return Ok(entity);
+        }
+
+        [HttpGet]
+        [Route("GanttDataSource")]
+        public IActionResult GanttDataSource()
+        {
+            var entity = _manager.IsEmriService.GanttDataSource();
             if (entity is null)
                 return NotFound();
             return Ok(entity);

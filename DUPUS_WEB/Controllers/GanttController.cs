@@ -1,4 +1,5 @@
 ﻿using DUPUS_WEB.Models;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Syncfusion.EJ2.Base;
@@ -15,7 +16,7 @@ namespace DUPUS_WEB.Controllers
             _manager = manager;
         }
 
-        public List<GanttDataSource> DataList = new();
+        public List<GanttDataSourceDto> DataList = new();
 
         public IActionResult Index()
         {
@@ -25,8 +26,7 @@ namespace DUPUS_WEB.Controllers
 
         public IActionResult UrlDatasource([FromBody] DataManagerRequest dm)
         {
-            ProjectData projectData = new ProjectData();
-            DataList = projectData.GetUrlDataSource();
+            DataList = GetUrlDataSource();
             return dm.RequiresCounts ? Json(new { result = DataList, count = DataList.Count }) : Json(DataList);
         }      
 
@@ -89,54 +89,18 @@ namespace DUPUS_WEB.Controllers
                     GanttResourcesCollection.Add(new ResourceGroupCollection
                     {
                        resourceId = resource.KonumID,
-                       resourceName = resource.KonumKodu
+                       resourceName = resource.KonumKoduAdi
                     });
                 }
             }
-
-            //ResourceGroupCollection Record1 = new ResourceGroupCollection()
-            //{
-            //    resourceId = 1,
-            //    resourceName = "Martin Tamer"
-            //};
-            //ResourceGroupCollection Record2 = new ResourceGroupCollection()
-            //{
-            //    resourceId = 2,
-            //    resourceName = "Rose Fuller"
-            //};
-            //ResourceGroupCollection Record3 = new ResourceGroupCollection()
-            //{
-            //    resourceId = 3,
-            //    resourceName = "Margaret Buchanan"
-            //};
-            //ResourceGroupCollection Record4 = new ResourceGroupCollection()
-            //{
-            //    resourceId = 4,
-            //    resourceName = "Fuller King"
-            //};
-            //ResourceGroupCollection Record5 = new ResourceGroupCollection()
-            //{
-            //    resourceId = 5,
-            //    resourceName = "Davolio Fuller"
-            //};
-            //ResourceGroupCollection Record6 = new ResourceGroupCollection()
-            //{
-            //    resourceId = 6,
-            //    resourceName = "Van Jack"
-            //};
-            //GanttResourcesCollection.Add(Record1);
-            //GanttResourcesCollection.Add(Record2);
-            //GanttResourcesCollection.Add(Record3);
-            //GanttResourcesCollection.Add(Record4);
-            //GanttResourcesCollection.Add(Record5);
-            //GanttResourcesCollection.Add(Record6);
             return GanttResourcesCollection;
         }
 
-        public class ResourceGroupCollection
+        public List<GanttDataSourceDto> GetUrlDataSource()
         {
-            public int resourceId { get; set; }
-            public string? resourceName { get; set; }
+            List<GanttDataSourceDto> dataCollection = new List<GanttDataSourceDto>();
+            dataCollection = _manager.IsEmriService.GanttDataSource().ToList();
+            return dataCollection;
         }
     }
 }

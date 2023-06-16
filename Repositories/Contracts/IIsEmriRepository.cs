@@ -1,10 +1,14 @@
-﻿using Entities.Models;
+﻿using Entities.Dtos;
+using Entities.Models;
 
 namespace Repositories.Contracts
 {
     public interface IIsEmriRepository : IRepositoryBase<UYIsEmri>
     {
         IQueryable<UYIsEmri> GetAllIsEmriList();
-        IQueryable<UYIsEmri> IsEmriById(long id);
+        IQueryable<UYIsEmri> IsEmriById(int id);
+        IQueryable<UYIsEmriDurumu> GetAllIsEmriDurumuList();
+        UYIsEmriDurumu? GetIsEmriDurumuById(int id);
+        List<GanttDataSourceDto> GanttDataSource();
     }
 }

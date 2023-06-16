@@ -12,7 +12,7 @@
             public int progress { get; set; }
             public string? predecessor { get; set; }
             public int? parentID { get; set; }
-            public List<GanttResourceModel>? resources { get; set; }
+            public List<GanttResource>? resources { get; set; }
             public string? customColumn { get; set; }
 
         }
