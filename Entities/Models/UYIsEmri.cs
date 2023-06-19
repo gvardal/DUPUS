@@ -15,6 +15,7 @@ namespace Entities.Models
         public Int64? UstIsEmriID { get; set; }
         public string? IsEmriKodu { get; set; }
         public int UrunID { get; set; }
+        public UYUrunler? Urun { get; set; }
         public byte? IsEmriTuruID { get; set; }
         public string? UretimTuru { get; set; }
         public int? SiparisNo { get; set; }

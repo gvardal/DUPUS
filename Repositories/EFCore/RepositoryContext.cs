@@ -16,6 +16,7 @@ namespace Repositories.EFCore
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
+        public DbSet<UYUrunler> UYUrunler { get; set; }
         public DbSet<UYIsEmri> UYIsEmri { get; set; }
         public DbSet<UYIsEmriRotasi> UYIsEmriRotasi { get; set; }
         public DbSet<UYIsEmriDurumu> UYIsEmriDurumu { get; set; }

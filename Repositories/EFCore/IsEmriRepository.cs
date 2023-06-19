@@ -7,8 +7,10 @@ namespace Repositories.EFCore
 {
     public class IsEmriRepository : RepositoryBase<UYIsEmri>, IIsEmriRepository
     {
+        private readonly IUYUrunlerRepository _urunler;
         public IsEmriRepository(RepositoryContext context) : base(context)
         {
+            _urunler = new UYUrunlerRepository(context);
         }
 
         public List<GanttDataSourceDto> GanttDataSource()
@@ -21,14 +23,14 @@ namespace Repositories.EFCore
             {
                 foreach (var isEmri in aktifIsEmri)
                 {
-                    ganttData.Add(new GanttDataSourceDto 
+                    ganttData.Add(new GanttDataSourceDto
                     {
                         taskId = (int)isEmri.IsEmriID,
-                        taskName = $"Test-{isEmri.IsEmriID}",
+                        taskName = $"Test-{isEmri.UrunID}",
                         startDate = isEmri.BaslangicTarihi,
                         endDate = isEmri.BitisTarihi,
                         parentID = (int?)isEmri.UstIsEmriID
-                    });
+                    }) ;
                 }
             }
             return ganttData;

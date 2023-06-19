@@ -1,4 +1,4 @@
-﻿<ejs-gantt id='RemoteData' allowFiltering="true" allowRowDragAndDrop="true"
+﻿<ejs-gantt id='RemoteData' allowFiltering="true" allowRowDragAndDrop="true" highlightWeekends
            treeColumnIndex="0" height="600px" resources="@ViewBag.ProjectResources" 
            toolbar="@(new List<string>() { "Add","Indent","Outdent", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll" })">
     <e-data-manager url="/Gantt/UrlDatasource" adaptor="UrlAdaptor" batchUrl="Gantt/BatchUpdate"></e-data-manager>

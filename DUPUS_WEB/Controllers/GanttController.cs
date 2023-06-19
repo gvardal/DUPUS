@@ -1,9 +1,7 @@
-﻿using DUPUS_WEB.Models;
-using Entities.Dtos;
+﻿using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Syncfusion.EJ2.Base;
-using static DUPUS_WEB.Models.ProjectData;
 
 namespace DUPUS_WEB.Controllers
 {
@@ -28,7 +26,7 @@ namespace DUPUS_WEB.Controllers
         {
             DataList = GetUrlDataSource();
             return dm.RequiresCounts ? Json(new { result = DataList, count = DataList.Count }) : Json(DataList);
-        }      
+        }
 
 
         public IActionResult BatchUpdate([FromBody] CRUDModel batchmodel)
@@ -76,7 +74,7 @@ namespace DUPUS_WEB.Controllers
             }
             return Json(new { addedRecords = batchmodel?.Added, changedRecords = batchmodel?.Changed, deletedRecords = batchmodel?.Deleted, result = DataList, count = DataList.Count });
         }
-        
+
 
         public List<ResourceGroupCollection> GetResource()
         {
@@ -88,8 +86,8 @@ namespace DUPUS_WEB.Controllers
                 {
                     GanttResourcesCollection.Add(new ResourceGroupCollection
                     {
-                       resourceId = resource.KonumID,
-                       resourceName = resource.KonumKoduAdi
+                        resourceId = resource.KonumID,
+                        resourceName = resource.KonumKoduAdi
                     });
                 }
             }

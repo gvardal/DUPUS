@@ -27,7 +27,7 @@ namespace DUPUS_API.Controllers
 
         [HttpGet]
         [Route("IsEmriListesiById")]
-        public IActionResult GetIsEmriByIsEmriId([FromQuery] int isEmriId)
+        public IActionResult GetIsEmriByIsEmriId([FromQuery] int isEmriId = 385090)
         {
             var entity = _manager.IsEmriService.GetIsEmriById(isEmriId);
             if (entity is null)

@@ -5,5 +5,6 @@
         IIsEmriService IsEmriService { get; }
         IKonumTuruService KonumTuruService { get; }
         IKonumService KonumService { get; }
+        IUrunlerService UrunlerService { get; }
     }
 }
