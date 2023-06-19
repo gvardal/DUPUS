@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
     [Table("UYIsEmri", Schema = "UretimYonetimi")]
     public class UYIsEmri
     {
+        [Key]
         public long IsEmriID { get; set; }
         public byte? FirmaID { get; set; }
         public int? MusteriKodu { get; set; }

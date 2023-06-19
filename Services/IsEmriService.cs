@@ -14,7 +14,11 @@ namespace Services
             _manager = manager;
         }
 
-        public IEnumerable<GanttDataSourceDto> GanttDataSource() => _manager.IsEmri.GanttDataSource();
+        public List<GanttDataSourceDto> GanttDataSource()
+        {
+            var result = _manager.IsEmri.GanttDataSource();
+            return result;
+        }
 
         public IEnumerable<UYIsEmri> GetAllIsEmri() => _manager.IsEmri.GetAllIsEmriList().Take(5);
 
@@ -22,6 +26,6 @@ namespace Services
 
         public UYIsEmri? GetIsEmriById(int id) => _manager.IsEmri.IsEmriById(id).SingleOrDefault();
 
-        public UYIsEmriDurumu? GetIsEmriDurumuById(int id)=> _manager.IsEmri.GetIsEmriDurumuById(id);
+        public UYIsEmriDurumu? GetIsEmriDurumuById(int id) => _manager.IsEmri.GetIsEmriDurumuById(id);
     }
 }

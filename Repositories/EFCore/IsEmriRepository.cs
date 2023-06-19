@@ -17,19 +17,29 @@ namespace Repositories.EFCore
         {
             List<GanttDataSourceDto> ganttData = new();
             var aktifIsEmri = _context.UYIsEmri
+                .Include(i=> i.Urun)
                 .Where(x => !x.IsEmriDurumID.Equals(0) && !x.IsEmriDurumID.Equals(7) && !x.IsEmriDurumID.Equals(8))
-                .OrderBy(o=> o.IsEmriID);
+                .Select(s=> new
+                {
+                    IsEmri = s.IsEmriID,
+                    UrunAdi = s.Urun!.Adi,
+                    Baslangic = s.BaslangicTarihi,
+                    Bitis = s.BitisTarihi,
+                    UstIs = s.UstIsEmriID
+
+                })
+                .OrderBy(o=> o.IsEmri);
             if (aktifIsEmri is not null)
             {
                 foreach (var isEmri in aktifIsEmri)
                 {
                     ganttData.Add(new GanttDataSourceDto
                     {
-                        taskId = (int)isEmri.IsEmriID,
-                        taskName = $"Test-{isEmri.UrunID}",
-                        startDate = isEmri.BaslangicTarihi,
-                        endDate = isEmri.BitisTarihi,
-                        parentID = (int?)isEmri.UstIsEmriID
+                        taskId = (int)isEmri.IsEmri,
+                        taskName = isEmri.UrunAdi,
+                        startDate = isEmri.Baslangic,
+                        endDate = isEmri.Bitis,
+                        parentID = (int?)isEmri.UstIs,
                     }) ;
                 }
             }

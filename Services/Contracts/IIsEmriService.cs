@@ -10,6 +10,6 @@ namespace Services.Contracts
         UYIsEmriDurumu? GetIsEmriDurumuById(int id);
         UYIsEmri? GetIsEmriById(int id);
 
-        IEnumerable<GanttDataSourceDto> GanttDataSource();
+        List<GanttDataSourceDto> GanttDataSource();
     }
 }
