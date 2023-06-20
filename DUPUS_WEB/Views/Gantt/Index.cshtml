@@ -1,13 +1,93 @@
-﻿<ejs-gantt id='RemoteData' allowFiltering="true" allowRowDragAndDrop="true" highlightWeekends
-           treeColumnIndex="0" height="600px" resources="@ViewBag.ProjectResources" 
-           toolbar="@(new List<string>() { "Add","Indent","Outdent", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll" })">
+﻿@*<ejs-gantt id='RemoteData' allowFiltering="true" allowRowDragAndDrop="true" highlightWeekends
+           treeColumnIndex="0" height="600px" resources="@ViewBag.ProjectResources" viewType="ResourceView" showOverAllocation
+           toolbar="@(new List<string>() { "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll" })">
+
     <e-data-manager url="/Gantt/UrlDatasource" adaptor="UrlAdaptor" batchUrl="Gantt/BatchUpdate"></e-data-manager>
+
     <e-gantt-taskfields id="taskId" name="taskName" startDate="startDate"
                         duration="duration" progress="progress" dependency="predecessor" parentID="parentID"
                         resourceInfo="resources">
     </e-gantt-taskfields>
-    <e-gantt-resourcefields id="resourceId" name="resourceName"></e-gantt-resourcefields>
+
+    <e-gantt-columns>
+        <e-gantt-column field="taskId" headerText="İş Emri" width="150" textAlign="Right"></e-gantt-column>
+       <e-gantt-column field="taskName" headerText="Ürün Adı" width="auto"></e-gantt-column>
+        <e-gantt-column field="duration" headerText="İşlem Süresi" width="150"></e-gantt-column>
+    </e-gantt-columns>
+
+    <e-gantt-resourcefields id="ResourceId" name="ResourceName"></e-gantt-resourcefields>
+
+    <e-gantt-resourcefields id="ResourceId" name="resourceName" unit="ResourceUnit" group="ResourceGroup"></e-gantt-resourcefields>
+
     <e-gantt-editsettings allowAdding="true" allowEditing="true" allowDeleting="true"
                           allowTaskbarEditing="true" showDeleteConfirmDialog="true"></e-gantt-editsettings>
+
     <e-gantt-labelSettings rightLabel="resources"></e-gantt-labelSettings>
+
+    <e-gantt-splittersettings position="35%" view=Default></e-gantt-splittersettings>
+
+    <e-gantt-timelinesettings timelineViewMode="Week"></e-gantt-timelinesettings>
 </ejs-gantt>
+dataSource="ViewBag.DataSource"
+*@
+
+@{
+    List<object> toolbarItems = new List<object>();
+    toolbarItems.Add("Add");
+    toolbarItems.Add("Edit");
+    toolbarItems.Add("Update");
+    toolbarItems.Add("Delete");
+    toolbarItems.Add("Cancel");
+    toolbarItems.Add("ExpandAll");
+    toolbarItems.Add("CollapseAll");
+    toolbarItems.Add(new { text = "Show/Hide Overallocation", tooltipText = "Show/Hide Overallocation", id = "showhidebar" });
+}
+
+<ejs-gantt id='ShowHideOverAllocation' resources="ViewBag.ProjectResources" 
+           viewType="ResourceView" allowResizing="true" allowSelection="true" highlightWeekends="true"
+           treeColumnIndex="1" height="600px" showOverAllocation="true"
+           toolbar=toolbarItems toolbarClick="toolbarClick">
+
+    <e-data-manager url="/Gantt/UrlDatasource" adaptor="UrlAdaptor" batchUrl="Gantt/BatchUpdate"></e-data-manager>
+
+    <e-gantt-editsettings allowAdding="true" allowEditing="true" allowDeleting="true"
+                          allowTaskbarEditing="true" showDeleteConfirmDialog="true"></e-gantt-editsettings>
+    <e-gantt-columns>
+        <e-gantt-column field="TaskId" visible="false"></e-gantt-column>
+        <e-gantt-column field="TaskName" headerText="Name" width="400" textalign="Left"></e-gantt-column>
+        <e-gantt-column field="Work" headerText="Work"></e-gantt-column>
+        <e-gantt-column field="Progress"></e-gantt-column>
+        <e-gantt-column field="ResourceGroup" headerText="Group"></e-gantt-column>
+        <e-gantt-column field="StartDate"></e-gantt-column>
+        <e-gantt-column field="Duration"></e-gantt-column>
+    </e-gantt-columns>
+
+    <e-gantt-labelSettings rightLabel="Resources" taskLabel="Progress"></e-gantt-labelSettings>
+
+    <e-gantt-splitterSettings columnIndex="2"></e-gantt-splitterSettings>
+
+    <e-gantt-resourcefields id="ResourceId" name="ResourceName" unit="ResourceUnit" group="ResourceGroup"></e-gantt-resourcefields>
+
+    <e-gantt-taskfields id="TaskId" name="TaskName" startDate="StartDate"
+                        endDate="EndDate" duration="Duration" progress="Progress" dependency="Predecessor"
+                        child="SubTasks" work="Work" resourceInfo="Resources"></e-gantt-taskfields>
+
+    <e-gantt-editdialogfields>
+        <e-gantt-editdialogfield type="General"></e-gantt-editdialogfield>
+        <e-gantt-editdialogfield type="Dependency"></e-gantt-editdialogfield>
+        <e-gantt-editdialogfield type="Resources"></e-gantt-editdialogfield>
+    </e-gantt-editdialogfields>
+
+</ejs-gantt>
+
+<script>
+
+    function toolbarClick(args) {
+        if (args.item.id === 'showhidebar') {
+            var ganttObj = document.getElementById("ShowHideOverAllocation").ej2_instances[0];
+            ganttObj.showOverAllocation = ganttObj.showOverAllocation ? false : true;
+        }
+    }
+</script>
+
+

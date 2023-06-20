@@ -14,9 +14,15 @@ namespace Services
             _manager = manager;
         }
 
-        public List<GanttDataSourceDto> GanttDataSource()
+        public List<GanttDataSourceDto> GanttSubTask()
         {
-            var result = _manager.IsEmri.GanttDataSource();
+            var result = _manager.IsEmri.GanttSubTask();
+            return result;
+        }
+
+        public List<GanttMainTaskDto> GanttMainTasks()
+        {
+            var result = _manager.IsEmri.GanttMainTask();
             return result;
         }
 

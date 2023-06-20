@@ -9,6 +9,7 @@ namespace Repositories.Contracts
         IQueryable<UYIsEmri> IsEmriById(int id);
         IQueryable<UYIsEmriDurumu> GetAllIsEmriDurumuList();
         UYIsEmriDurumu? GetIsEmriDurumuById(int id);
-        List<GanttDataSourceDto> GanttDataSource();
+        List<GanttDataSourceDto> GanttSubTask();
+        List<GanttMainTaskDto> GanttMainTask();
     }
 }
