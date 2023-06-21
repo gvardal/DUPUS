@@ -40,62 +40,62 @@ namespace Repositories.EFCore
         public List<GanttDataSourceDto> GanttSubTask()
         {
             List<GanttDataSourceDto> ganttData = new();
-            var aktifIsEmrileri = _context.UYIsEmri
-                .Include(i => i.Urun)
-                .Where(x => !x.IsEmriDurumID.Equals(0) && !x.IsEmriDurumID.Equals(7) && !x.IsEmriDurumID.Equals(8))
-                .Select(s => new
-                {
-                    IsEmri = s.IsEmriID,
-                    UrunAdi = s.Urun!.Adi,
-                    Baslangic = s.BaslangicTarihi,
-                    Bitis = s.BitisTarihi,
-                    UstIs = s.UstIsEmriID
+            //var aktifIsEmrileri = _context.UYIsEmri
+            //    .Include(i => i.Urun)
+            //    .Where(x => !x.IsEmriDurumID.Equals(0) && !x.IsEmriDurumID.Equals(7) && !x.IsEmriDurumID.Equals(8))
+            //    .Select(s => new
+            //    {
+            //        IsEmri = s.IsEmriID,
+            //        UrunAdi = s.Urun!.Adi,
+            //        Baslangic = s.BaslangicTarihi,
+            //        Bitis = s.BitisTarihi,
+            //        UstIs = s.UstIsEmriID
 
-                })
-                .OrderBy(o => o.IsEmri);
+            //    })
+            //    .OrderBy(o => o.IsEmri);
 
-            if (aktifIsEmrileri is not null)
-            {
-                foreach (var isEmri in aktifIsEmrileri)
-                {
-                    ganttData.Add(new GanttDataSourceDto
-                    {
-                        IsEmriId = (int)isEmri.IsEmri,
-                        TaskName = isEmri.UrunAdi                        
-                    });
-                }
+            //if (aktifIsEmrileri is not null)
+            //{
+            //    foreach (var isEmri in aktifIsEmrileri)
+            //    {
+            //        ganttData.Add(new GanttDataSourceDto
+            //        {
+            //            IsEmriId = (int)isEmri.IsEmri,
+            //            TaskName = isEmri.UrunAdi                        
+            //        });
+            //    }
 
-                foreach (var data in ganttData)
-                {
-                    if (data is not null)
-                    {
-                        var isEmriKonums = _context.UYIsEmriRotasi
-                                        .Where(x => x.IsEmriID.Equals(data.IsEmriId))
-                                        .Select(s => new
-                                        {
-                                            IsEmriRotaId = s.IsEmriRotaID,
-                                            KonumId = s.KonumID,
-                                            BaslangicTarihi = s.PlanlananBaslamaTarihi,
-                                            BitisTarihi = s.PlanlananBitisTarihi,
-                                            TamamlanmaZamani = s.PlanlananTamamlanmaZamani
-                                        }).ToList();
+            //    foreach (var data in ganttData)
+            //    {
+            //        if (data is not null)
+            //        {
+            //            var isEmriKonums = _context.UYIsEmriRotasi
+            //                            .Where(x => x.IsEmriID.Equals(data.IsEmriId))
+            //                            .Select(s => new
+            //                            {
+            //                                IsEmriRotaId = s.IsEmriRotaID,
+            //                                KonumId = s.KonumID,
+            //                                BaslangicTarihi = s.PlanlananBaslamaTarihi,
+            //                                BitisTarihi = s.PlanlananBitisTarihi,
+            //                                TamamlanmaZamani = s.PlanlananTamamlanmaZamani
+            //                            }).ToList();
 
-                        foreach (var konum in isEmriKonums)
-                        {
-                            data.TaskId = konum.IsEmriRotaId;
-                            TimeSpan ts = konum.BitisTarihi - konum.BaslangicTarihi;
-                            data.StartDate = konum.BaslangicTarihi;
-                            data.EndDate = konum.BitisTarihi;
-                            data.Duration = (int)ts.TotalMinutes;
-                            data.ResourceId = konum.KonumId;
-                            data.Resources = new List<GanttResourceDto>
-                            {
-                                new GanttResourceDto { ResourceId = konum.KonumId,ResourceUnit = 75}
-                            };
-                        }
-                    }
-                }
-            }
+            //            foreach (var konum in isEmriKonums)
+            //            {
+            //                data.TaskId = konum.IsEmriRotaId;
+            //                TimeSpan ts = konum.BitisTarihi - konum.BaslangicTarihi;
+            //                data.StartDate = konum.BaslangicTarihi;
+            //                data.EndDate = konum.BitisTarihi;
+            //                data.Duration = (int)ts.TotalMinutes;
+            //                data.ResourceId = konum.KonumId;
+            //                data.Resources = new List<GanttResourceDto>
+            //                {
+            //                    new GanttResourceDto { ResourceId = konum.KonumId,ResourceUnit = 75}
+            //                };
+            //            }
+            //        }
+            //    }
+            //}
             return ganttData;
         }
 

@@ -29,6 +29,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Gantt}/{action=Index}/{id?}");
+    pattern: "{controller=Resource}/{action=Index}/{id?}");
 
 app.Run();

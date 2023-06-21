@@ -1,0 +1,44 @@
+﻿@{
+    List<object> toolbarItems = new List<object>();
+    toolbarItems.Add("Add");
+    toolbarItems.Add("Edit");
+    toolbarItems.Add("Update");
+    toolbarItems.Add("Delete");
+    toolbarItems.Add("Cancel");
+    toolbarItems.Add("ExpandAll");
+    toolbarItems.Add("CollapseAll");
+    toolbarItems.Add(new { text = "Show/Hide Overallocation", tooltipText = "Show/Hide Overallocation", id = "showhidebar" });
+}
+
+<ejs-gantt id='RemoteData' treeColumnIndex="1" height="450px" resources="ViewBag.projectResources"
+           allowResizing allowSelection highlightWeekends viewType="ResourceView" toolbar=toolbarItems>
+
+    <e-gantt-editsettings allowAdding="true" allowEditing="true" allowDeleting="true"
+                          allowTaskbarEditing="true" showDeleteConfirmDialog="true"></e-gantt-editsettings>
+
+    <e-gantt-labelSettings rightLabel="resources"></e-gantt-labelSettings>
+
+    <e-gantt-splitterSettings columnIndex="4"></e-gantt-splitterSettings>
+
+    <e-gantt-columns>
+        <e-gantt-column field="taskId" visible="false"></e-gantt-column>
+        <e-gantt-column field="taskName" headerText="Name" width="400" textalign="Left"></e-gantt-column>
+        <e-gantt-column field="work" headerText="Work"></e-gantt-column>
+        <e-gantt-column field="progress"></e-gantt-column>
+        <e-gantt-column field="resourceGroup" headerText="Group"></e-gantt-column>
+        <e-gantt-column field="startDate"></e-gantt-column>
+        <e-gantt-column field="duration"></e-gantt-column>
+    </e-gantt-columns>
+
+    <e-data-manager url="/Resource/UrlDatasource" adaptor="UrlAdaptor" batchUrl="Resource/BatchUpdate"></e-data-manager>
+
+    <e-gantt-taskfields id="taskId" name="taskName" startDate="startDate"
+                        duration="duration" progress="progress" dependency="predecessor" 
+                        parentID="parentID" resourceInfo="resources">
+    </e-gantt-taskfields>
+
+    <e-gantt-resourcefields id="resourceId" name="resourceName" unit="resourceUnit" group="resourceGroup"></e-gantt-resourcefields>
+
+    <e-gantt-editsettings allowAdding="true" allowEditing="true" allowDeleting="true"
+                          allowTaskbarEditing="true" showDeleteConfirmDialog="true"></e-gantt-editsettings>
+</ejs-gantt>
