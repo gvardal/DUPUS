@@ -1,31 +1,26 @@
 ﻿namespace Entities.Dtos
 {
-    public class GanttDataSourceDto
+    public class GanttDataSource
     {
-        public int TaskId { get; set; }
-        public string? TaskName { get; set; }
-        public string? TaskType { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public DateTime BaselineStartDate { get; set; }
-        public DateTime BaselineEndDate { get; set; }
-        public int? Duration { get; set; }
-        public bool IsManual { get; set; }
-        public int Progress { get; set; }
-        public string? Predecessor { get; set; }
-        public List<GanttDataSourceDto>? SubTasks { get; set; }
-        public int[]? ResourceId { get; set; }
-        public List<ResourceModelDto>? Resources { get; set; }
-        public string? Notes { get; set; }
-        public int? Work { get; set; }
-        public int ParentID { get; set; }
-        public List<IndicatorsModelDto>? Indicators { get; set; }
+        public int taskId { get; set; }
+        public string? taskName { get; set; }
+        public DateTime? startDate { get; set; }
+        public DateTime? endDate { get; set; }
+        public int? duration { get; set; }
+        public string? durationUnit { get; set; } = "minutes";
+        public decimal? progress { get; set; }
+        public string? predecessor { get; set; }
+        public int? parentID { get; set; }
+        public List<ResourceModel>? resources { get; set; }
     }
 
-    public class ResourceModelDto
+    public class ResourceModel
     {
-        public int ResourceId { get; set; }
-        public int? ResourceUnit { get; set; }
+        public int resourceId { get; set; }
+        public string? resourceName { get; set; }
+        public string? resourceGroup { get; set; }
+        public int? resourceUnit { get; set; }
+        public int? ActivityId { get; set; }
     }
 
     public class IndicatorsModelDto

@@ -2,6 +2,7 @@
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
+using System;
 
 namespace Repositories.EFCore
 {
@@ -29,73 +30,46 @@ namespace Repositories.EFCore
             {
                 foreach (var main in aktifIsEmri)
                 {
-                    mainTask.Add(new GanttMainTaskDto { IsEmriId = (int)main.IsEmri, UrunAdi = main.UrunAdi});
+                    mainTask.Add(new GanttMainTaskDto { IsEmriId = (int)main.IsEmri, UrunAdi = main.UrunAdi });
                 }
             }
 
             return mainTask;
         }
 
-
-        public List<GanttDataSourceDto> GanttSubTask()
+        public List<GanttDataSource> GanttTasks()
         {
-            List<GanttDataSourceDto> ganttData = new();
-            //var aktifIsEmrileri = _context.UYIsEmri
-            //    .Include(i => i.Urun)
-            //    .Where(x => !x.IsEmriDurumID.Equals(0) && !x.IsEmriDurumID.Equals(7) && !x.IsEmriDurumID.Equals(8))
-            //    .Select(s => new
-            //    {
-            //        IsEmri = s.IsEmriID,
-            //        UrunAdi = s.Urun!.Adi,
-            //        Baslangic = s.BaslangicTarihi,
-            //        Bitis = s.BitisTarihi,
-            //        UstIs = s.UstIsEmriID
-
-            //    })
-            //    .OrderBy(o => o.IsEmri);
-
-            //if (aktifIsEmrileri is not null)
-            //{
-            //    foreach (var isEmri in aktifIsEmrileri)
-            //    {
-            //        ganttData.Add(new GanttDataSourceDto
-            //        {
-            //            IsEmriId = (int)isEmri.IsEmri,
-            //            TaskName = isEmri.UrunAdi                        
-            //        });
-            //    }
-
-            //    foreach (var data in ganttData)
-            //    {
-            //        if (data is not null)
-            //        {
-            //            var isEmriKonums = _context.UYIsEmriRotasi
-            //                            .Where(x => x.IsEmriID.Equals(data.IsEmriId))
-            //                            .Select(s => new
-            //                            {
-            //                                IsEmriRotaId = s.IsEmriRotaID,
-            //                                KonumId = s.KonumID,
-            //                                BaslangicTarihi = s.PlanlananBaslamaTarihi,
-            //                                BitisTarihi = s.PlanlananBitisTarihi,
-            //                                TamamlanmaZamani = s.PlanlananTamamlanmaZamani
-            //                            }).ToList();
-
-            //            foreach (var konum in isEmriKonums)
-            //            {
-            //                data.TaskId = konum.IsEmriRotaId;
-            //                TimeSpan ts = konum.BitisTarihi - konum.BaslangicTarihi;
-            //                data.StartDate = konum.BaslangicTarihi;
-            //                data.EndDate = konum.BitisTarihi;
-            //                data.Duration = (int)ts.TotalMinutes;
-            //                data.ResourceId = konum.KonumId;
-            //                data.Resources = new List<GanttResourceDto>
-            //                {
-            //                    new GanttResourceDto { ResourceId = konum.KonumId,ResourceUnit = 75}
-            //                };
-            //            }
-            //        }
-            //    }
-            //}
+            List<GanttDataSource> ganttData = new();
+            var tasks = _context.UYIsEmriRotasi
+                .Include(i => i.IsEmri)
+                .Where(x => !x.IsEmri!.IsEmriDurumID.Equals(0) && !x.IsEmri!.IsEmriDurumID.Equals(7) && !x.IsEmri!.IsEmriDurumID.Equals(8)) //&& x.IsEmri.UrunID.Equals(7806)
+                .Select(s => new
+                {
+                    taskId = s.IsEmriRotaID,
+                    taskName = s.IsEmri!.Urun!.Adi,
+                    startDate = s.PlanlananBaslamaTarihi,
+                    endDate = s.PlanlananBitisTarihi,
+                    resource = s.KonumID,
+                    predecessor = s.OncekiIsEmriRotaID,
+                    duration = Convert.ToInt32(s.PlanlananTamamlanmaZamani / 60),
+                    progress = s.GerceklesenCikti == 0 ? 0 : Convert.ToDecimal((s.GerceklesenCikti / s.PlanlananGirdi)),
+                });
+            if (tasks is not null)
+            {
+                foreach (var task in tasks)
+                {
+                    ganttData.Add(new GanttDataSource
+                    {
+                        taskId = task.taskId,
+                        taskName = task.taskName,
+                        startDate = task.startDate,
+                        duration = task.duration,
+                        predecessor = $"{task.predecessor}FS",
+                        progress = task.progress,
+                        resources = new List<ResourceModel> { new ResourceModel { resourceId = task.resource } }
+                    });
+                }
+            }
             return ganttData;
         }
 

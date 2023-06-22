@@ -10,7 +10,7 @@ namespace Services.Contracts
         UYIsEmriDurumu? GetIsEmriDurumuById(int id);
         UYIsEmri? GetIsEmriById(int id);
 
-        List<GanttDataSourceDto> GanttSubTask();
+        List<GanttDataSource> GanttTasks();
         List<GanttMainTaskDto> GanttMainTasks();
     }
 }

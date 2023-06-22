@@ -1,6 +1,6 @@
 ﻿namespace Entities.Dtos
 {
-    public class GanttResourceDto
+    public class GanttResource
     {
         public int ResourceId { get; set; }
         public string? ResourceName { get; set; }

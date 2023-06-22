@@ -10,8 +10,9 @@
     toolbarItems.Add(new { text = "Show/Hide Overallocation", tooltipText = "Show/Hide Overallocation", id = "showhidebar" });
 }
 
-<ejs-gantt id='RemoteData' treeColumnIndex="1" height="450px" resources="ViewBag.projectResources"
-           allowResizing allowSelection highlightWeekends viewType="ResourceView" toolbar=toolbarItems>
+<ejs-gantt id='RemoteData' treeColumnIndex="1" height="750px" resources="ViewBag.projectResources"
+           enableMultiTaskbar="true" enableContextMenu="true" allowResizing="true" allowSelection="true"
+           highlightWeekends viewType="ResourceView" toolbar=toolbarItems>
 
     <e-gantt-editsettings allowAdding="true" allowEditing="true" allowDeleting="true"
                           allowTaskbarEditing="true" showDeleteConfirmDialog="true"></e-gantt-editsettings>
@@ -23,16 +24,14 @@
     <e-gantt-columns>
         <e-gantt-column field="taskId" visible="false"></e-gantt-column>
         <e-gantt-column field="taskName" headerText="Name" width="400" textalign="Left"></e-gantt-column>
-        <e-gantt-column field="work" headerText="Work"></e-gantt-column>
-        <e-gantt-column field="progress"></e-gantt-column>
-        <e-gantt-column field="resourceGroup" headerText="Group"></e-gantt-column>
-        <e-gantt-column field="startDate"></e-gantt-column>
-        <e-gantt-column field="duration"></e-gantt-column>
+        <e-gantt-column field="progress" format="P0"></e-gantt-column>
+        <e-gantt-column field="startDate" format="dd.MM.yyyy" ></e-gantt-column>
+        <e-gantt-column field="duration" ></e-gantt-column>
     </e-gantt-columns>
 
-    <e-data-manager url="/Resource/UrlDatasource" adaptor="UrlAdaptor" batchUrl="Resource/BatchUpdate"></e-data-manager>
+    <e-data-manager url="Resource/UrlDatasource" adaptor="UrlAdaptor" batchUrl="Resource/BatchUpdate"></e-data-manager>
 
-    <e-gantt-taskfields id="taskId" name="taskName" startDate="startDate"
+    <e-gantt-taskfields id="taskId" name="taskName" startDate="startDate" durationUnit="durationUnit"
                         duration="duration" progress="progress" dependency="predecessor" 
                         parentID="parentID" resourceInfo="resources">
     </e-gantt-taskfields>

@@ -56,10 +56,10 @@ namespace DUPUS_API.Controllers
         }
 
         [HttpGet]
-        [Route("GanttSubTask")]
+        [Route("GanttTasks")]
         public IActionResult GanttDataSource()
         {
-            var entity = _manager.IsEmriService.GanttSubTask();
+            var entity = _manager.IsEmriService.GanttTasks();
             if (entity is null)
                 return NotFound();
             return Ok(entity);
