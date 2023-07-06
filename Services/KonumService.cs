@@ -27,5 +27,7 @@ namespace Services
         public IEnumerable<UYKonum> GetAllKonumByKonumId(byte id) => _manager.UYKonum.GetAllKonumByKonumId(id);
 
         public IEnumerable<UYKonum> GetAllKonumList() => _manager.UYKonum.GetAllKonumList();
+
+        
     }
 }

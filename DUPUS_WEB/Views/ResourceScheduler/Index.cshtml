@@ -1,0 +1,117 @@
+﻿@using Syncfusion.EJ2.Schedule;
+@using static DUPUS_WEB.Controllers.ResourceSchedulerController;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    List<ScheduleView> viewOption = new List<ScheduleView>()
+    {
+        new ScheduleView { Option = Syncfusion.EJ2.Schedule.View.Week },
+        new ScheduleView { Option = Syncfusion.EJ2.Schedule.View.TimelineDay }
+    };
+
+    List<AppointmentData> appData = new List<AppointmentData>();
+    appData.Add(new AppointmentData
+            { Id = 1, Subject = "Explosion of Betelgeuse Star", StartTime = new DateTime(2022, 2, 11, 9, 30, 0), EndTime = new DateTime(2022, 2, 11, 11, 0, 0) });
+    appData.Add(new AppointmentData
+            { Id = 2, Subject = "Thule Air Crash Report", StartTime = new DateTime(2022, 2, 12, 12, 0, 0), EndTime = new DateTime(2022, 2, 12, 14, 0, 0) });
+    appData.Add(new AppointmentData
+            { Id = 3, Subject = "Blue Moon Eclipse", StartTime = new DateTime(2022, 2, 13, 9, 30, 0), EndTime = new DateTime(2022, 2, 13, 11, 0, 0) });
+    appData.Add(new AppointmentData
+            { Id = 4, Subject = "Meteor Showers in 2022", StartTime = new DateTime(2022, 2, 14, 13, 0, 0), EndTime = new DateTime(2022, 2, 14, 14, 30, 0) });
+    appData.Add(new AppointmentData
+            { Id = 5, Subject = "Milky Way as Melting pot", StartTime = new DateTime(2022, 2, 15, 12, 0, 0), EndTime = new DateTime(2022, 2, 15, 14, 0, 0) });
+
+
+
+}
+
+<div class="row">
+    <div class="col-2">
+        <ejs-listview id="recourceList" dataSource="ViewBag.projectResources" headerTitle="Resource List" showHeader select="onSelect">
+            <e-listview-fieldsettings id="Id" text="Text">
+            </e-listview-fieldsettings>
+        </ejs-listview>
+
+        <input id="konumId" name="konumId" />
+        <input id="konumAd" name="konumAd" />
+        <input type="submit" id="button" value="Submit" formaction="GetValues" />
+
+    </div>
+    <div class="col-10">
+        <a>Secilen Hat Bilgisi @ViewBag.SelectedListItem</a>
+        <ejs-schedule id="schedule" height="750px" width="auto" selectedDate="new DateTime(2022, 2, 15)" views="viewOption">
+            <e-schedule-eventsettings dataSource="appData"></e-schedule-eventsettings>
+        </ejs-schedule>
+    </div>
+</div>
+
+<div class="row">
+    <h4 id="evt-text">
+        <b>Event Trace</b>
+    </h4>
+
+
+    <div id="list-container">
+        <div id="list_event">
+            <div id="evt">
+                <div class="eventarea" style="height:273px;overflow: auto">
+                    <!-- Event log element -->
+                    <span class="EventLog" id="EventLog" style="word-break: normal"></span>
+                </div>
+                <div class="evtbtn">
+                    <!-- clear button element -->
+                    <ejs-button id="clear"><e-content-template>Clear</e-content-template></ejs-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    #text {
+        margin-left: 10px;
+        margin-top: 20px;
+    }
+
+    #recourceList {
+        max-width: 350px;
+        margin: auto;
+        margin-top: 10px;
+        display: block;
+        border: 1px solid #dddddd;
+        border-radius: 5px;
+    }
+</style>
+
+<script>
+
+    //Clears the event log details
+    document.getElementById("clear").onclick = () => {
+        document.getElementById("EventLog").innerHTML = "";
+    };
+
+    //Handler for select event trace
+    function onSelect(args) 
+    {
+        var selecteditem = document.getElementById('recourceList').ej2_instances[0].getSelectedItems();
+        var textbox1 = document.getElementById('konumId');
+        textbox1.value = selecteditem["data"].Id.toString();
+
+        var textbox2 = document.getElementById('konumAd');
+        textbox2.value = selecteditem["data"].Text.toString();
+    }
+
+
+    //Display event log
+    function appendElement(html) {
+        var span = document.createElement("span");
+        span.innerHTML = html;
+        var log = document.getElementById("EventLog");
+        log.insertBefore(span, log.firstChild);
+    }
+</script>
+
+
+

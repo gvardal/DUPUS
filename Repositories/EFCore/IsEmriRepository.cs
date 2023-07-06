@@ -64,7 +64,7 @@ namespace Repositories.EFCore
                         taskName = task.taskName,
                         startDate = task.startDate,
                         duration = task.duration,
-                        predecessor = $"{task.predecessor}FS",
+                        //predecessor = $"{task.predecessor}FS",
                         progress = task.progress,
                         resources = new List<ResourceModel> { new ResourceModel { resourceId = task.resource } }
                     });

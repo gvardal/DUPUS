@@ -9,6 +9,7 @@ namespace DUPUS_WEB.Extensions.Mapper
         public MappingProfile()
         {
             CreateMap<UYKonum, GanttResourceGroupDto>();
+            CreateMap<UYKonum,ResourceListDto>();
         }
     }
 }

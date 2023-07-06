@@ -7,6 +7,6 @@ namespace Services.Contracts
     {
         IEnumerable<UYKonum> GetAllKonumList();
         IEnumerable<UYKonum> GetAllKonumByKonumId(byte id);
-        IEnumerable<GanttResourceGroupDto> GanttResourceGroup(byte id);
+        IEnumerable<GanttResourceGroupDto> GanttResourceGroup(byte id);        
     }
 }

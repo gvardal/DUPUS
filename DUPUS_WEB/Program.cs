@@ -29,6 +29,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Resource}/{action=Index}/{id?}");
+    pattern: "{controller=ResourceScheduler}/{action=Index}/{id?}");
 
 app.Run();

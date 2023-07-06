@@ -53,7 +53,23 @@ namespace DUPUS_WEB.Models
             return GanttResourcesCollection;
         }
 
-
+        public List<ResourceListDto> ResourcesList()
+        {
+            List<ResourceListDto> ResourcesList = new List<ResourceListDto>();
+            var resources = _manager.KonumService.GanttResourceGroup(21);
+            if (resources is not null)
+            {
+                foreach (var resource in resources)
+                {
+                    ResourcesList.Add(new ResourceListDto
+                    {
+                        Id = resource.KonumID.ToString(),
+                        Text = resource.Ad,
+                    });
+                }
+            }
+            return ResourcesList;
+        }
 
     }
 }
