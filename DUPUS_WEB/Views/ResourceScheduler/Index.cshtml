@@ -32,11 +32,8 @@
             <e-listview-fieldsettings id="Id" text="Text">
             </e-listview-fieldsettings>
         </ejs-listview>
-
         <input id="konumId" name="konumId" />
-        <input id="konumAd" name="konumAd" />
-        <input type="submit" id="button" value="Submit" formaction="GetValues" />
-
+        <input id="konumAd" name="konumAd" data="@ViewBag.SelectedListItem" />
     </div>
     <div class="col-10">
         <a>Secilen Hat Bilgisi @ViewBag.SelectedListItem</a>
@@ -44,29 +41,6 @@
             <e-schedule-eventsettings dataSource="appData"></e-schedule-eventsettings>
         </ejs-schedule>
     </div>
-</div>
-
-<div class="row">
-    <h4 id="evt-text">
-        <b>Event Trace</b>
-    </h4>
-
-
-    <div id="list-container">
-        <div id="list_event">
-            <div id="evt">
-                <div class="eventarea" style="height:273px;overflow: auto">
-                    <!-- Event log element -->
-                    <span class="EventLog" id="EventLog" style="word-break: normal"></span>
-                </div>
-                <div class="evtbtn">
-                    <!-- clear button element -->
-                    <ejs-button id="clear"><e-content-template>Clear</e-content-template></ejs-button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <style>
@@ -87,12 +61,7 @@
 
 <script>
 
-    //Clears the event log details
-    document.getElementById("clear").onclick = () => {
-        document.getElementById("EventLog").innerHTML = "";
-    };
-
-    //Handler for select event trace
+   //Handler for select event trace
     function onSelect(args) 
     {
         var selecteditem = document.getElementById('recourceList').ej2_instances[0].getSelectedItems();
@@ -101,16 +70,9 @@
 
         var textbox2 = document.getElementById('konumAd');
         textbox2.value = selecteditem["data"].Text.toString();
+        $ViewBag.SelectedListItem = selecteditem["data"].Text.toString();
     }
 
-
-    //Display event log
-    function appendElement(html) {
-        var span = document.createElement("span");
-        span.innerHTML = html;
-        var log = document.getElementById("EventLog");
-        log.insertBefore(span, log.firstChild);
-    }
 </script>
 
 
