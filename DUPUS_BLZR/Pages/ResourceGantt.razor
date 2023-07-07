@@ -1,0 +1,79 @@
+﻿@page "/resourcegantt"
+@using DUPUS_BLZR.Models;
+
+@inject IServiceManager _manager
+
+<SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" AllowRowDragAndDrop="true"
+         Toolbar="@(new List<Object>() { "Add", "Cancel", "Update" , "Delete", "Edit", "CollapseAll", "ExpandAll" })" ViewType="ViewType.ResourceView">
+    <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" 
+        DurationUnit="DurationUnit"
+        Progress="Progress"
+                     ParentID="ParentId" ResourceInfo="Resources" Dependency="Predecessor">
+    </GanttTaskFields>
+    <GanttResourceFields Group="ResourceGroup" Resources="@ResourceCollection" Id="ResourceId" Name="ResourceName" Unit="Unit" TResources="ResourceData"></GanttResourceFields>
+    <GanttLabelSettings RightLabel="Resources" TaskLabel="Progress" TValue="TaskData"></GanttLabelSettings>
+    <GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
+</SfGantt>
+
+
+@code {
+    private List<TaskData> TaskCollection = new();
+
+    private List<ResourceData> ResourceCollection = new();
+
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = GetTasks();
+        ResourceCollection = GetResource();
+    }
+
+    private List<ResourceData> GetResource()
+    {
+        ResourceCollection.Clear();
+        var result = _manager.KonumService.GanttResourceGroup(21);
+        if (result is not null)
+        {
+            foreach (var rsc in result)
+            {
+                ResourceCollection.Add(
+                    new ResourceData
+                        {
+                            ResourceId = rsc.KonumID,
+                            ResourceName = rsc.Ad,
+                            ResourceGroup = rsc.KonumKodu
+                        });
+            }
+        }
+        return ResourceCollection;
+    }
+
+    private List<TaskData> GetTasks()
+    {
+        List<TaskData> Tasks = new();
+        var result = _manager.IsEmriService.GanttTasks();
+        if (result.Count > 0)
+        {
+            foreach (var task in result.Take(5))
+            {
+                Tasks.Add(new TaskData
+                {
+                        TaskId = task.taskId,
+                        TaskName = task.taskName,
+                        StartDate = task.startDate,
+                        TaskType = "FixedDuration",
+                        Duration = task.duration,
+                        Progress = task.progress,
+                        ParentId = task.parentID,
+                        //Resources = task.resources                        
+                });
+            }
+          
+        }
+        return Tasks;
+
+    }
+
+
+
+
+}
