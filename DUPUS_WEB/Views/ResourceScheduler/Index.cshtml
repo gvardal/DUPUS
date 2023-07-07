@@ -1,8 +1,7 @@
-﻿@using Syncfusion.EJ2.Schedule;
+﻿@using Entities.Dtos;
+@using Syncfusion.EJ2.Schedule;
 @using static DUPUS_WEB.Controllers.ResourceSchedulerController;
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+
 @{
     List<ScheduleView> viewOption = new List<ScheduleView>()
     {
@@ -10,40 +9,39 @@
         new ScheduleView { Option = Syncfusion.EJ2.Schedule.View.TimelineDay }
     };
 
-    List<AppointmentData> appData = new List<AppointmentData>();
-    appData.Add(new AppointmentData
-            { Id = 1, Subject = "Explosion of Betelgeuse Star", StartTime = new DateTime(2022, 2, 11, 9, 30, 0), EndTime = new DateTime(2022, 2, 11, 11, 0, 0) });
-    appData.Add(new AppointmentData
-            { Id = 2, Subject = "Thule Air Crash Report", StartTime = new DateTime(2022, 2, 12, 12, 0, 0), EndTime = new DateTime(2022, 2, 12, 14, 0, 0) });
-    appData.Add(new AppointmentData
-            { Id = 3, Subject = "Blue Moon Eclipse", StartTime = new DateTime(2022, 2, 13, 9, 30, 0), EndTime = new DateTime(2022, 2, 13, 11, 0, 0) });
-    appData.Add(new AppointmentData
-            { Id = 4, Subject = "Meteor Showers in 2022", StartTime = new DateTime(2022, 2, 14, 13, 0, 0), EndTime = new DateTime(2022, 2, 14, 14, 30, 0) });
-    appData.Add(new AppointmentData
-            { Id = 5, Subject = "Milky Way as Melting pot", StartTime = new DateTime(2022, 2, 15, 12, 0, 0), EndTime = new DateTime(2022, 2, 15, 14, 0, 0) });
-
-
-
+    var dataManager = new DataManager()
+            {
+                Url = "/ResourceScheduler/LoadData",
+                Adaptor = "UrlAdaptor",
+                CrudUrl = "ResourceScheduler/UpdateData",
+                CrossDomain = true
+            };
 }
 
 <div class="row">
     <div class="col-2">
-        <ejs-listview id="recourceList" dataSource="ViewBag.projectResources" headerTitle="Resource List" showHeader select="onSelect">
+        <ejs-listview id="recourceList" dataSource="@ViewBag.ResourceList" headerTitle="Resource List" showHeader select="onSelect">
             <e-listview-fieldsettings id="Id" text="Text">
             </e-listview-fieldsettings>
         </ejs-listview>
+
         <input id="konumId" name="konumId" />
         <input id="konumAd" name="konumAd" data="@ViewBag.SelectedListItem" />
+        <br />
+        <input type="submit" id="button" value="Submit" formaction="GetValues" />
+
     </div>
     <div class="col-10">
-        <a>Secilen Hat Bilgisi @ViewBag.SelectedListItem</a>
-        <ejs-schedule id="schedule" height="750px" width="auto" selectedDate="new DateTime(2022, 2, 15)" views="viewOption">
-            <e-schedule-eventsettings dataSource="appData"></e-schedule-eventsettings>
+        <ejs-message id="msg_default" content="@ViewBag.SelectedResource" class="my-2"></ejs-message>
+        <ejs-schedule id="schedule" height="750px" width="auto" selectedDate="new DateTime(2022, 2, 15)" views="viewOption" 
+        dateFormat="dd.MM.yyyy" >
+            <e-schedule-eventsettings dataSource="dataManager"></e-schedule-eventsettings>
         </ejs-schedule>
     </div>
 </div>
 
 <style>
+
     #text {
         margin-left: 10px;
         margin-top: 20px;
@@ -57,21 +55,22 @@
         border: 1px solid #dddddd;
         border-radius: 5px;
     }
+
 </style>
 
 <script>
 
-   //Handler for select event trace
-    function onSelect(args) 
-    {
+    //Handler for select event trace
+    function onSelect(args) {
         var selecteditem = document.getElementById('recourceList').ej2_instances[0].getSelectedItems();
         var textbox1 = document.getElementById('konumId');
         textbox1.value = selecteditem["data"].Id.toString();
 
         var textbox2 = document.getElementById('konumAd');
         textbox2.value = selecteditem["data"].Text.toString();
-        $ViewBag.SelectedListItem = selecteditem["data"].Text.toString();
+        ViewBag.SelectedResource = "test";
     }
+
 
 </script>
 
