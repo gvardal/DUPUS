@@ -1,27 +1,112 @@
 ﻿@page "/weeklyplan"
+@inject IServiceManager _manager
 
 <PageTitle>Weekly Plan</PageTitle>
 
-<SfSchedule TValue=WeeklyPlanDto Height="750px" @bind-SelectedDate="@CurrentDate">
-    <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
-    <ScheduleViews>
-        <ScheduleView Option="View.Day"></ScheduleView>
-        <ScheduleView Option="View.Week"></ScheduleView>
-        <ScheduleView Option="View.WorkWeek"></ScheduleView>
-        <ScheduleView Option="View.Month"></ScheduleView>
-        <ScheduleView Option="View.Agenda"></ScheduleView>
-    </ScheduleViews>
-</SfSchedule>
+<div class="row">
+    <div class="col-2">
+        <SfListBox TValue="string[]" DataSource="@ResourcesList" TItem="ResourceListDto" @ref="ListBoxObj" @bind-Value="@Value"
+                   onclick="@(()=> click())">
+            <ListBoxFieldSettings Text="Text" Value="Id" />
+            <ListBoxEvents TValue="string[]" ValueChange="change" TItem="ResourceListDto"></ListBoxEvents>
+            <ListBoxSelectionSettings Mode="Syncfusion.Blazor.DropDowns.SelectionMode.Single"></ListBoxSelectionSettings>
+        </SfListBox>
+    </div>
+    <div class="col-10">
+        <div>
+            @if (!string.IsNullOrEmpty(SelectedResource))
+            {
+                <SfMessage CssClass="mb-2" ShowIcon="false">@SelectedResource</SfMessage>
+            }
+            else
+            {
+                <SfMessage CssClass="mb-2" ShowIcon="false">Please select resource to view weekly plan.</SfMessage>
+            }
+        </div>
+        <SfSchedule TValue=WeeklyPlanDto Height="750px" @bind-SelectedDate="@CurrentDate" EnableAdaptiveUI ShowQuickInfo ShowWeekNumber>
+            <ScheduleEvents TValue="WeeklyPlanDto" ActionCompleted="OnActionCompleted"></ScheduleEvents>
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+            <ScheduleViews>
+                <ScheduleView Option="View.Day"></ScheduleView>
+                <ScheduleView Option="View.Week"></ScheduleView>
+                <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView Option="View.Agenda"></ScheduleView>
+            </ScheduleViews>
+            
+        </SfSchedule>
+    </div>
+</div>
+
+
+
+
 
 @code {
 
+    SfListBox<string[], ResourceListDto> ListBoxObj;
     DateTime CurrentDate = DateTime.Now;
 
-    List<WeeklyPlanDto> DataSource = new List<WeeklyPlanDto>
+    private string SelectedResource { get; set; } = string.Empty;
+    private string? SelectedResourceId { get; set; }
+    private string[] Value = new string[] { };
+    private List<ResourceListDto> ResourcesList = new List<ResourceListDto>();
+    private List<WeeklyPlanDto> DataSource = new List<WeeklyPlanDto>();
+
+
+    protected override void OnInitialized()
     {
-       new WeeklyPlanDto
-       {
-           Id = 1, Subject = "Paris", StartTime = new DateTime(2023, 7, 11, 10, 0, 0) , EndTime = new DateTime(2023, 7, 11, 12, 0, 0)
-       }
-    };
+        var resources = _manager.KonumService.GanttResourceGroup(21);
+        if (resources is not null)
+        {
+            foreach (var resource in resources)
+            {
+                ResourcesList.Add(new ResourceListDto
+                    {
+                        Id = resource.KonumID.ToString(),
+                        Text = resource.Ad,
+                    });
+            }
+        }
+    }
+
+    private void click()
+    {
+        var Values = ListBoxObj.GetDataByValue(Value);
+        if (Values is not null)
+        {
+            SelectedResource = Values.First().Text!;
+            var result = _manager.IsEmriService.GetWeeklyPlanWorkOrders(SelectedResourceId);
+        }
+
+    }
+
+    private void change(ListBoxChangeEventArgs<string[], ResourceListDto> args)
+    {
+        if (args.Value is not null)
+        {
+            SelectedResourceId = args.Value.First();
+            var result = _manager.IsEmriService.GetWeeklyPlanWorkOrders(SelectedResourceId);
+            if (result is not null)
+                DataSource = result.ToList();
+        }
+    }
+
+    public void OnActionCompleted(ActionEventArgs<WeeklyPlanDto> args)
+    {
+        if (args.ActionType == ActionType.EventChange)
+        {
+            Console.WriteLine($"Değişen Kayıt Sayısı: {args.ChangedRecords.Count}");
+            
+            if (args.ChangedRecords.Count > 0)
+            {
+                foreach (var cwo in args.ChangedRecords)
+                {
+                    Console.WriteLine($"Değişen Kayıt Id: {args.ChangedRecords.First().Id}");
+                    _manager.
+                }
+            }
+        }
+    }
+
 }

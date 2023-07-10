@@ -11,5 +11,10 @@ namespace Repositories.Contracts
         UYIsEmriDurumu? GetIsEmriDurumuById(int id);
         List<TaskData> GanttTasks();
         List<GanttMainTaskDto> GanttMainTask();
+
+
+        // For Blazor Project
+        List<WeeklyPlanDto> WeeklyPlanWorkOrders(string konumId);
+
     }
 }

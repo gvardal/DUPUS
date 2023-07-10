@@ -2,7 +2,6 @@
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
-using System;
 
 namespace Repositories.EFCore
 {
@@ -86,5 +85,44 @@ namespace Repositories.EFCore
         public IQueryable<UYIsEmri> GetAllIsEmriList() => GetAll();
 
         public IQueryable<UYIsEmri> IsEmriById(int id) => GetByCondition(x => x.IsEmriID.Equals(id));
+
+
+        // For Blazor Project 
+        public List<WeeklyPlanDto> WeeklyPlanWorkOrders(string konumId)
+        {
+            List<WeeklyPlanDto> weeklyPlan = new();
+            var result = _context.UYIsEmriRotasi
+                .Include(i => i.IsEmri)
+                .Where(x => (!x.IsEmri!.IsEmriDurumID.Equals(0) && !x.IsEmri!.IsEmriDurumID.Equals(7) && !x.IsEmri!.IsEmriDurumID.Equals(8))
+                    && x.KonumID == Convert.ToInt64(konumId))
+                .Select(s => new
+                {
+                    taskId = s.IsEmriRotaID,
+                    taskName = s.IsEmri!.Urun!.Adi,
+                    startDate = s.PlanlananBaslamaTarihi,
+                    endDate = s.PlanlananBaslamaTarihi.AddSeconds(Convert.ToDouble(s.PlanlananTamamlanmaZamani)),
+                    resource = s.KonumID,
+                    predecessor = s.OncekiIsEmriRotaID,
+                    duration = Convert.ToInt32(s.PlanlananTamamlanmaZamani / 60),
+                    progress = s.GerceklesenCikti == 0 ? 0 : Convert.ToDecimal((s.GerceklesenCikti / s.PlanlananGirdi)),
+                });
+
+            if (result is not null)
+            {
+                foreach (var wo in result)
+                {
+                    weeklyPlan.Add(new WeeklyPlanDto
+                    {
+                        Id = wo.taskId,
+                        Subject = wo.taskName!,
+                        StartTime = wo.startDate,
+                        EndTime = wo.endDate
+                    });
+                }
+            }
+            return weeklyPlan;
+        }
+
+
     }
 }

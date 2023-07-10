@@ -1,11 +1,12 @@
 ﻿@page "/resourcegantt"
 @inject IServiceManager _manager
 
+
 <SfGantt DataSource="@TaskCollection" Height="800px" AllowRowDragAndDrop HighlightWeekends
          Toolbar="@(new List<Object>() { "Add", "Cancel", "Update" , "Delete", "Edit", "CollapseAll", "ExpandAll" })"
          ViewType="ViewType.ResourceView">
     <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" Duration="Duration"
-                     DurationUnit="DurationUnit" Progress="Progress" ParentID="ParentId" ResourceInfo="Resources" 
+                     DurationUnit="DurationUnit" Progress="Progress" ParentID="ParentId" ResourceInfo="Resources"
                      Dependency="Predecessor">
     </GanttTaskFields>
     <GanttColumns>
@@ -20,6 +21,8 @@
     <GanttLabelSettings RightLabel="Resources" TValue="TaskData"></GanttLabelSettings>
     <GanttEditSettings AllowAdding AllowDeleting AllowEditing AllowTaskbarEditing ShowDeleteConfirmDialog></GanttEditSettings>
 </SfGantt>
+
+
 
 
 @code {

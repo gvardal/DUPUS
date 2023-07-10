@@ -33,5 +33,7 @@ namespace Services
         public UYIsEmri? GetIsEmriById(int id) => _manager.IsEmri.IsEmriById(id).SingleOrDefault();
 
         public UYIsEmriDurumu? GetIsEmriDurumuById(int id) => _manager.IsEmri.GetIsEmriDurumuById(id);
+
+        public IEnumerable<WeeklyPlanDto> GetWeeklyPlanWorkOrders(string konumId) => _manager.IsEmri.WeeklyPlanWorkOrders(konumId);
     }
 }

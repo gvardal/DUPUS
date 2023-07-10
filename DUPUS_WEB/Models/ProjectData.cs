@@ -21,13 +21,13 @@ namespace DUPUS_WEB.Models
                 {
                     dataCollection.Add(new GanttDataSource
                     {
-                        taskId = task.taskId,
-                        taskName = task.taskName,
-                        startDate = task.startDate,
-                        duration = task.duration,
-                        progress = task.progress,
-                        predecessor = task.predecessor,
-                        resources = task.resources
+                        taskId = task.TaskId,
+                        taskName = task.TaskName,
+                        startDate = task.StartDate,
+                        duration = task.Duration,
+                        progress = task.Progress,
+                        predecessor = task.Predecessor,
+                        resources = task.Resources
                     });
                 }
             }
@@ -44,9 +44,9 @@ namespace DUPUS_WEB.Models
                 {
                     GanttResourcesCollection.Add(new ResourceData
                     {
-                        resourceId = resource.KonumID,
-                        resourceName = resource.Ad,
-                        resourceGroup = resource.KonumKodu
+                        ResourceId = resource.KonumID,
+                        ResourceName = resource.Ad,
+                        ResourceGroup = resource.KonumKodu
                     });
                 }
             }

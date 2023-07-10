@@ -8,6 +8,7 @@ namespace Services
     {
         private readonly IMapper _mapper;
         private readonly Lazy<IIsEmriService> _isEmriServices;
+        private readonly Lazy<IIsEmriRotaService> _isEmriRotaServices;
         private readonly Lazy<IKonumTuruService> _konumTuruServices;
         private readonly Lazy<IKonumService> _konumServices;
         private readonly Lazy<IUrunlerService> _urunlerServices;
@@ -16,12 +17,14 @@ namespace Services
         {
             _mapper = mapper;
             _isEmriServices = new Lazy<IIsEmriService>(() => new IsEmriService(repositoryManager));
+            _isEmriRotaServices = new Lazy<IIsEmriRotaService>(() => new IsEmriRotaService(repositoryManager));
             _konumTuruServices = new Lazy<IKonumTuruService>(() => new KonumTuruService(repositoryManager));
             _konumServices = new Lazy<IKonumService>(() => new KonumService(repositoryManager,mapper));
             _urunlerServices = new Lazy<IUrunlerService>(() => new UrunlerService(repositoryManager));
         }
 
         public IIsEmriService IsEmriService => _isEmriServices.Value;
+        public IIsEmriRotaService IsEmriRotaService => _isEmriRotaServices.Value;
         public IKonumTuruService KonumTuruService => _konumTuruServices.Value;
         public IKonumService KonumService => _konumServices.Value;
         public IUrunlerService UrunlerService => _urunlerServices.Value;

@@ -12,5 +12,9 @@ namespace Services.Contracts
 
         List<TaskData> GanttTasks();
         List<GanttMainTaskDto> GanttMainTasks();
+
+        // For Blazor Project
+        IEnumerable<WeeklyPlanDto> GetWeeklyPlanWorkOrders(string konumId);
+
     }
 }
