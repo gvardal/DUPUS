@@ -26,6 +26,10 @@ namespace Repositories.EFCore
             throw new NotImplementedException();
         }
 
-        public void Update(T entity) => _context.Update(entity);
+        public void Update(T entity)
+        {
+            _context.Update(entity);
+            _context.SaveChanges();
+        }
     }
 }

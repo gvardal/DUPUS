@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Dtos;
+using Entities.Models;
 using Repositories.Contracts;
 using Services.Contracts;
 
@@ -13,9 +14,9 @@ namespace Services
             _manager = manager;
         }
 
-        public void updateIsEmriRotasi(UYIsEmriRotasi isEmriRota)
-        {
-            throw new NotImplementedException();
-        }
+        public IQueryable<UYIsEmriRotasi> GetIsEmriRotaById(int isEmriRotaId) => _manager.IsEmriRota.IsEmriRotasiById(isEmriRotaId);
+
+        public void updateIsEmriRotasi(UYIsEmriRotasiUpdateDto isEmriRota) => _manager.IsEmriRota.UpdateIsEmriRotasi(isEmriRota);
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Dtos;
+using Entities.Models;
 using Repositories.Contracts;
 
 namespace Repositories.EFCore
@@ -11,8 +12,12 @@ namespace Repositories.EFCore
 
         public IQueryable<UYIsEmriRotasi> GetAllIsEmriRotaList() => GetAll();
 
-        public IQueryable<UYIsEmriRotasi> IsEmriRotasiById(long id) => GetByCondition(x=> x.IsEmriID.Equals(id));
+        public IQueryable<UYIsEmriRotasi> IsEmriRotasiById(int id)
+        {
+            IQueryable<UYIsEmriRotasi> result = GetByCondition(x => x.IsEmriRotaID.Equals(id));
+            return result;
+        }
 
-        public void UpdateIsEmriRotasi(UYIsEmriRotasi isEmriRotasi) => Update(isEmriRotasi);
+        public void UpdateIsEmriRotasi(UYIsEmriRotasiUpdateDto isEmriRotasi) => Update(isEmriRotasi);
     }
 }

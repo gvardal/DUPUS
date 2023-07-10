@@ -1,4 +1,5 @@
 ﻿@page "/weeklyplan"
+
 @inject IServiceManager _manager
 
 <PageTitle>Weekly Plan</PageTitle>
@@ -32,8 +33,7 @@
                 <ScheduleView Option="View.WorkWeek"></ScheduleView>
                 <ScheduleView Option="View.Month"></ScheduleView>
                 <ScheduleView Option="View.Agenda"></ScheduleView>
-            </ScheduleViews>
-            
+            </ScheduleViews>            
         </SfSchedule>
     </div>
 </div>
@@ -97,13 +97,24 @@
         if (args.ActionType == ActionType.EventChange)
         {
             Console.WriteLine($"Değişen Kayıt Sayısı: {args.ChangedRecords.Count}");
-            
+
             if (args.ChangedRecords.Count > 0)
             {
                 foreach (var cwo in args.ChangedRecords)
                 {
                     Console.WriteLine($"Değişen Kayıt Id: {args.ChangedRecords.First().Id}");
-                    _manager.
+                    UYIsEmriRotasi? rotaBilgisi = _manager.IsEmriRotaService.GetIsEmriRotaById(cwo.Id).FirstOrDefault();
+                    if (rotaBilgisi is not null)
+                    {
+                        rotaBilgisi.PlanlananBaslamaTarihi = cwo.StartTime;
+                        rotaBilgisi.PlanlananBitisTarihi = cwo.EndTime;
+                        rotaBilgisi.DuzenleyenCalisanID = 6;
+                        rotaBilgisi.DuzenlemeTarihi = DateTime.Now;
+                        rotaBilgisi.SonErisenCalisanID = 6;
+                        rotaBilgisi.SonErisimTarihi = DateTime.Now;
+                        //_manager.IsEmriRotaService.updateIsEmriRotasi(rotaBilgisi);
+                        Console.WriteLine($"Is Emri Update Edildi.Is Emri Rota ID : {cwo.Id}");
+                    }
                 }
             }
         }

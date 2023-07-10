@@ -1,11 +1,12 @@
-﻿using Entities.Models;
+﻿using Entities.Dtos;
+using Entities.Models;
 
 namespace Repositories.Contracts
 {
     public interface IIsEmriRotaRepository : IRepositoryBase<UYIsEmriRotasi>
     {
         IQueryable<UYIsEmriRotasi> GetAllIsEmriRotaList();
-        IQueryable<UYIsEmriRotasi> IsEmriRotasiById(long id);
-        void UpdateIsEmriRotasi (UYIsEmriRotasi isEmriRotasi);
+        IQueryable<UYIsEmriRotasi> IsEmriRotasiById(int id);
+        void UpdateIsEmriRotasi (UYIsEmriRotasiUpdateDto isEmriRotasi);
     }
 }

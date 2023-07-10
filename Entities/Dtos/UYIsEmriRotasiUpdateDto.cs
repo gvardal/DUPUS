@@ -1,14 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Entities.Models;
 
-namespace Entities.Models
+namespace Entities.Dtos
 {
-    [Table("UYIsEmriRotasi", Schema = "UretimYonetimi")]
-    public class UYIsEmriRotasi
+    public class UYIsEmriRotasiUpdateDto
     {
         public int IsEmriRotaID { get; set; }
         public long IsEmriID { get; set; }
         public UYIsEmri? IsEmri { get; set; }
-        public string? OperasyonuKodu { get; set; }
         public int? OncekiIsEmriRotaID { get; set; }
         public byte Sira { get; set; }
         public int KonumID { get; set; }
@@ -22,7 +20,7 @@ namespace Entities.Models
         public DateTime PlanlananBaslamaTarihi { get; set; }
         public DateTime PlanlananBitisTarihi { get; set; }
         public DateTime? EnErkenBaslamaTarihi { get; set; }
-        public bool? Sabitlenmis { get; set; }        
+        public bool? Sabitlenmis { get; set; }
         public Single? PlanlananTamamlanmaZamani { get; set; }
         public Single? HazirlamaSuresi { get; set; }
         public Single? IslemSuresi { get; set; }
@@ -47,7 +45,6 @@ namespace Entities.Models
         public string? KaliteKontrolRaporu { get; set; }
         public bool? Tamamlandi { get; set; }
         public decimal? SaatlikUcreti { get; set; }
-        public decimal? PlanlananMaliyet { get; set; }
         public decimal? GerceklesenMaliyet { get; set; }
         public int? EkipmanID { get; set; }
         public bool? IsEmriOnayi { get; set; }

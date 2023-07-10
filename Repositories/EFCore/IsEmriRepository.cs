@@ -46,12 +46,12 @@ namespace Repositories.EFCore
                 {
                     taskId = s.IsEmriRotaID,
                     taskName = s.IsEmri!.Urun!.Adi,
-                    startDate = s.PlanlananBaslamaTarihi,
-                    endDate = s.PlanlananBitisTarihi,
-                    resource = s.KonumID,
-                    predecessor = s.OncekiIsEmriRotaID,
-                    duration = Convert.ToInt32(s.PlanlananTamamlanmaZamani / 60),
-                    progress = s.GerceklesenCikti == 0 ? 0 : Convert.ToDecimal((s.GerceklesenCikti / s.PlanlananGirdi)),
+                    //startDate = s.PlanlananBaslamaTarihi,
+                    //endDate = s.PlanlananBitisTarihi,
+                    //resource = s.KonumID,
+                    //predecessor = s.OncekiIsEmriRotaID,
+                    //duration = Convert.ToInt32(s.PlanlananTamamlanmaZamani / 60),
+                    //progress = s.GerceklesenCikti == 0 ? 0 : Convert.ToDecimal((s.GerceklesenCikti / s.PlanlananGirdi)),
                 });
             if (tasks is not null)
             {
@@ -61,11 +61,11 @@ namespace Repositories.EFCore
                     {
                         TaskId = task.taskId,
                         TaskName = task.taskName!,
-                        StartDate = task.startDate,
-                        Duration = task.duration,
+                        //StartDate = task.startDate,
+                        //Duration = task.duration,
                         //predecessor = $"{task.predecessor}FS",
-                        Progress = task.progress,
-                        Resources = new List<ResourceData> { new ResourceData { ResourceId = task.resource } }
+                        //Progress = task.progress,
+                        //Resources = new List<ResourceData> { new ResourceData { ResourceId = task.resource } }
                     });
                 }
             }
