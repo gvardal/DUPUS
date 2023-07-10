@@ -1,5 +1,7 @@
 ﻿using Entities.Dtos;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Repositories.Contracts;
 
 namespace Repositories.EFCore
@@ -14,10 +16,14 @@ namespace Repositories.EFCore
 
         public IQueryable<UYIsEmriRotasi> IsEmriRotasiById(int id)
         {
-            IQueryable<UYIsEmriRotasi> result = GetByCondition(x => x.IsEmriRotaID.Equals(id));
+            IQueryable<UYIsEmriRotasi> result = GetByCondition(x => x.IsEmriRotaID.Equals(id)).AsNoTracking();
             return result;
         }
 
-        public void UpdateIsEmriRotasi(UYIsEmriRotasiUpdateDto isEmriRotasi) => Update(isEmriRotasi);
+        public void UpdateIsEmriRotasi(UYIsEmriRotasi isEmriRotasi)
+        {
+            Update(isEmriRotasi);
+
+        }
     }
 }

@@ -8,6 +8,8 @@ namespace Entities.Models
         public int IsEmriRotaID { get; set; }
         public long IsEmriID { get; set; }
         public UYIsEmri? IsEmri { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string? OperasyonuKodu { get; set; }
         public int? OncekiIsEmriRotaID { get; set; }
         public byte Sira { get; set; }
@@ -47,6 +49,8 @@ namespace Entities.Models
         public string? KaliteKontrolRaporu { get; set; }
         public bool? Tamamlandi { get; set; }
         public decimal? SaatlikUcreti { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal? PlanlananMaliyet { get; set; }
         public decimal? GerceklesenMaliyet { get; set; }
         public int? EkipmanID { get; set; }

@@ -13,6 +13,8 @@ namespace DUPUS_BLZR.Extensions
             services.AddDbContext<RepositoryContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("Scienta"));
+                options.EnableSensitiveDataLogging();
+
             });
         }
 

@@ -7,6 +7,6 @@ namespace Repositories.Contracts
     {
         IQueryable<UYIsEmriRotasi> GetAllIsEmriRotaList();
         IQueryable<UYIsEmriRotasi> IsEmriRotasiById(int id);
-        void UpdateIsEmriRotasi (UYIsEmriRotasiUpdateDto isEmriRotasi);
+        void UpdateIsEmriRotasi (UYIsEmriRotasi isEmriRotasi);
     }
 }

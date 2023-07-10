@@ -8,6 +8,7 @@ namespace Repositories.EFCore
     {
         public RepositoryContext(DbContextOptions options) : base(options)
         {
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

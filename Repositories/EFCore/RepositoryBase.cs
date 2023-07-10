@@ -1,4 +1,5 @@
-﻿using Repositories.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using Repositories.Contracts;
 using System.Linq.Expressions;
 
 namespace Repositories.EFCore
@@ -10,11 +11,12 @@ namespace Repositories.EFCore
         protected RepositoryBase(RepositoryContext context)
         {
             _context = context;
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        public IQueryable<T> GetAll() => _context.Set<T>();
+        public IQueryable<T> GetAll() => _context.Set<T>().AsNoTracking();
 
-        public IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression) => _context.Set<T>().Where(expression);
+        public IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression) => _context.Set<T>().AsNoTracking().Where(expression);
 
         public void Create(T entity)
         {
@@ -26,10 +28,7 @@ namespace Repositories.EFCore
             throw new NotImplementedException();
         }
 
-        public void Update(T entity)
-        {
-            _context.Update(entity);
-            _context.SaveChanges();
-        }
+        public void Update(T entity) => _context.Update(entity);
+
     }
 }

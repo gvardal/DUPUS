@@ -97,7 +97,6 @@
         if (args.ActionType == ActionType.EventChange)
         {
             Console.WriteLine($"Değişen Kayıt Sayısı: {args.ChangedRecords.Count}");
-
             if (args.ChangedRecords.Count > 0)
             {
                 foreach (var cwo in args.ChangedRecords)
@@ -112,7 +111,7 @@
                         rotaBilgisi.DuzenlemeTarihi = DateTime.Now;
                         rotaBilgisi.SonErisenCalisanID = 6;
                         rotaBilgisi.SonErisimTarihi = DateTime.Now;
-                        //_manager.IsEmriRotaService.updateIsEmriRotasi(rotaBilgisi);
+                        _manager.IsEmriRotaService.updateIsEmriRotasi(rotaBilgisi);
                         Console.WriteLine($"Is Emri Update Edildi.Is Emri Rota ID : {cwo.Id}");
                     }
                 }

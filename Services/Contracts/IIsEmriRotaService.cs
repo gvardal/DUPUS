@@ -5,8 +5,7 @@ namespace Services.Contracts
 {
     public interface IIsEmriRotaService
     {
-        void updateIsEmriRotasi(UYIsEmriRotasiUpdateDto isEmriRota);
-
+        void updateIsEmriRotasi(UYIsEmriRotasi isEmriRota);
         IQueryable<UYIsEmriRotasi> GetIsEmriRotaById(int isEmriRotaId);
     }
 }
