@@ -37,9 +37,9 @@ namespace Repositories.EFCore
             return mainTask;
         }
 
-        public List<GanttDataSource> GanttTasks()
+        public List<TaskData> GanttTasks()
         {
-            List<GanttDataSource> ganttData = new();
+            List<TaskData> ganttData = new();
             var tasks = _context.UYIsEmriRotasi
                 .Include(i => i.IsEmri)
                 .Where(x => !x.IsEmri!.IsEmriDurumID.Equals(0) && !x.IsEmri!.IsEmriDurumID.Equals(7) && !x.IsEmri!.IsEmriDurumID.Equals(8)) //&& x.IsEmri.UrunID.Equals(7806)
@@ -58,15 +58,15 @@ namespace Repositories.EFCore
             {
                 foreach (var task in tasks)
                 {
-                    ganttData.Add(new GanttDataSource
+                    ganttData.Add(new TaskData
                     {
-                        taskId = task.taskId,
-                        taskName = task.taskName,
-                        startDate = task.startDate,
-                        duration = task.duration,
+                        TaskId = task.taskId,
+                        TaskName = task.taskName!,
+                        StartDate = task.startDate,
+                        Duration = task.duration,
                         //predecessor = $"{task.predecessor}FS",
-                        progress = task.progress,
-                        resources = new List<ResourceModel> { new ResourceModel { resourceId = task.resource } }
+                        Progress = task.progress,
+                        Resources = new List<ResourceData> { new ResourceData { ResourceId = task.resource } }
                     });
                 }
             }

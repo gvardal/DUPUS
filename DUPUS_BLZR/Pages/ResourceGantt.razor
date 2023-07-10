@@ -1,18 +1,24 @@
 ﻿@page "/resourcegantt"
-@using DUPUS_BLZR.Models;
-
 @inject IServiceManager _manager
 
-<SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" AllowRowDragAndDrop="true"
-         Toolbar="@(new List<Object>() { "Add", "Cancel", "Update" , "Delete", "Edit", "CollapseAll", "ExpandAll" })" ViewType="ViewType.ResourceView">
-    <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" 
-        DurationUnit="DurationUnit"
-        Progress="Progress"
-                     ParentID="ParentId" ResourceInfo="Resources" Dependency="Predecessor">
+<SfGantt DataSource="@TaskCollection" Height="800px" AllowRowDragAndDrop HighlightWeekends
+         Toolbar="@(new List<Object>() { "Add", "Cancel", "Update" , "Delete", "Edit", "CollapseAll", "ExpandAll" })"
+         ViewType="ViewType.ResourceView">
+    <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" Duration="Duration"
+                     DurationUnit="DurationUnit" Progress="Progress" ParentID="ParentId" ResourceInfo="Resources" 
+                     Dependency="Predecessor">
     </GanttTaskFields>
-    <GanttResourceFields Group="ResourceGroup" Resources="@ResourceCollection" Id="ResourceId" Name="ResourceName" Unit="Unit" TResources="ResourceData"></GanttResourceFields>
-    <GanttLabelSettings RightLabel="Resources" TaskLabel="Progress" TValue="TaskData"></GanttLabelSettings>
-    <GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
+    <GanttColumns>
+        <GanttColumn Field="TaskId" Visible="false"></GanttColumn>
+        <GanttColumn Field="TaskName" HeaderText="Name" Width="400" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Left"></GanttColumn>
+        <GanttColumn Field="Progress" Format="P0"></GanttColumn>
+        <GanttColumn Field="StartDate" Format="dd.MM.yyyy"></GanttColumn>
+        <GanttColumn Field="Duration"></GanttColumn>
+    </GanttColumns>
+    <GanttResourceFields Group="ResourceGroup" Resources="@ResourceCollection" Id="ResourceId" Name="ResourceName" Unit="ResourceUnit" TResources="ResourceData"></GanttResourceFields>
+    <GanttSplitterSettings ColumnIndex="4"></GanttSplitterSettings>
+    <GanttLabelSettings RightLabel="Resources" TValue="TaskData"></GanttLabelSettings>
+    <GanttEditSettings AllowAdding AllowDeleting AllowEditing AllowTaskbarEditing ShowDeleteConfirmDialog></GanttEditSettings>
 </SfGantt>
 
 
@@ -53,21 +59,21 @@
         var result = _manager.IsEmriService.GanttTasks();
         if (result.Count > 0)
         {
-            foreach (var task in result.Take(5))
+            foreach (var task in result)
             {
                 Tasks.Add(new TaskData
-                {
-                        TaskId = task.taskId,
-                        TaskName = task.taskName,
-                        StartDate = task.startDate,
+                    {
+                        TaskId = task.TaskId,
+                        TaskName = task.TaskName,
+                        StartDate = task.StartDate,
                         TaskType = "FixedDuration",
-                        Duration = task.duration,
-                        Progress = task.progress,
-                        ParentId = task.parentID,
-                        //Resources = task.resources                        
-                });
+                        Duration = task.Duration,
+                        Progress = task.Progress,
+                        ParentId = task.ParentId,
+                        Resources = task.Resources
+                    });
             }
-          
+
         }
         return Tasks;
 

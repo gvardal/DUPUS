@@ -1,4 +1,4 @@
-﻿namespace DUPUS_BLZR.Models
+﻿namespace Entities.Dtos
 {
     public class TaskData
     {
@@ -10,9 +10,9 @@
         public string DurationUnit { get; set; } = "minutes";
         public decimal? Progress { get; set; }
         public int? ParentId { get; set; }
-        public string Predecessor { get; set; } = string.Empty;
+        public string? Predecessor { get; set; } 
         public string Notes { get; set; } = string.Empty;
         public string TaskType { get; set; } = string.Empty;
-        public List<ResourceData> Resources { get; set; }
+        public List<ResourceData>? Resources { get; set; }
     }
 }

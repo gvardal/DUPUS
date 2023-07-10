@@ -14,7 +14,7 @@ namespace Services
             _manager = manager;
         }
 
-        public List<GanttDataSource> GanttTasks()
+        public List<TaskData> GanttTasks()
         {
             var result = _manager.IsEmri.GanttTasks();
             return result;

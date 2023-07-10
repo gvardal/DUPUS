@@ -34,15 +34,15 @@ namespace DUPUS_WEB.Models
             return dataCollection;
         }
 
-        public List<ResourceModel> ProjectResources()
+        public List<ResourceData> ProjectResources()
         {
-            List<ResourceModel> GanttResourcesCollection = new List<ResourceModel>();
+            List<ResourceData> GanttResourcesCollection = new List<ResourceData>();
             var resources = _manager.KonumService.GanttResourceGroup(21);
             if (resources is not null)
             {
                 foreach (var resource in resources)
                 {
-                    GanttResourcesCollection.Add(new ResourceModel
+                    GanttResourcesCollection.Add(new ResourceData
                     {
                         resourceId = resource.KonumID,
                         resourceName = resource.Ad,

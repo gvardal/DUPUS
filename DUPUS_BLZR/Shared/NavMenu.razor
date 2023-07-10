@@ -1,31 +1,34 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">DUPUS_BLZR</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+﻿
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="resourcegantt">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Resource Gantt
-            </NavLink>
-        </div>
-    </nav>
-</div>
+<MudNavMenu>
+    <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">Ana Sayfa</MudNavLink>
+    <MudTooltip Text="Weekly Plan" Arrow="true" Placement="Placement.Right">
+        <MudNavLink Href="/weeklyplan" Icon="@Icons.Material.Filled.Receipt">Weekly Plan</MudNavLink>
+    </MudTooltip>
+
+@*    <MudNavGroup Title="Reçete Yönetimi" Icon="@Icons.Material.Filled.Dvr" Expanded="false">
+        <MudTooltip Text="Reçete Kontrol" Arrow="true" Placement="Placement.Right">
+            <MudNavLink Href="/recete" Icon="@Icons.Material.Filled.Dvr" IconColor="Color.Info">Reçete Kontrol</MudNavLink>
+        </MudTooltip>
+        <MudNavLink Href="/" Icon="@Icons.Material.Filled.Dvr">Reçete Tarihçe</MudNavLink>
+    </MudNavGroup>
+
+    <MudNavGroup Title="İş Yönetimi" Icon="@Icons.Material.Filled.Work" Expanded="false">
+        <MudTooltip Text="Mamul İş Emri" Arrow="true" Placement="Placement.Right">
+            <MudNavLink Href="/misemri" Icon="@Icons.Material.Filled.DonutLarge" IconColor="Color.Info">Mamul İş Emri</MudNavLink>
+        </MudTooltip>
+        <MudTooltip Text="İş Emri Operasyon" Arrow="true" Placement="Placement.Right">
+            <MudNavLink Href="/isemriop" Icon="@Icons.Material.Filled.DonutLarge" IconColor="Color.Info">Mamul İş Emri</MudNavLink>
+        </MudTooltip>
+    </MudNavGroup>
+
+    <MudNavGroup Title="Settings" Icon="@Icons.Material.Filled.Settings" Expanded="false">
+        <MudNavLink Href="/users" Icon="@Icons.Material.Filled.People" IconColor="Color.Info">Users</MudNavLink>
+        <MudNavLink Href="/security" Icon="@Icons.Material.Filled.Security" IconColor="Color.Info">Security</MudNavLink>
+    </MudNavGroup>
+*@
+</MudNavMenu>
+
 
 @code {
     private bool collapseNavMenu = true;

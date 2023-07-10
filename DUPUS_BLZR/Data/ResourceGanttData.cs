@@ -12,19 +12,19 @@ namespace DUPUS_BLZR.Data
             _manager = manager;
         }
 
-        public List<ResourceModel> GanttResources()
+        public List<ResourceData> GanttResources()
         {
-            List<ResourceModel> GanttResourcesCollection = new List<ResourceModel>();
+            List<ResourceData> GanttResourcesCollection = new List<ResourceData>();
             var resources = _manager.KonumService.GanttResourceGroup(21);
             if (resources is not null)
             {
                 foreach (var resource in resources)
                 {
-                    GanttResourcesCollection.Add(new ResourceModel
+                    GanttResourcesCollection.Add(new ResourceData
                     {
-                        resourceId = resource.KonumID,
-                        resourceName = resource.Ad,
-                        resourceGroup = resource.KonumKodu
+                        ResourceId = resource.KonumID,
+                        ResourceName = resource.Ad,
+                        ResourceGroup = resource.KonumKodu
                     });
                 }
             }

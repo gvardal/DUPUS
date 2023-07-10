@@ -1,4 +1,5 @@
 using DUPUS_BLZR.Extensions;
+using MudBlazor.Services;
 using Syncfusion.Blazor;
 
 namespace DUPUS_BLZR
@@ -12,7 +13,7 @@ namespace DUPUS_BLZR
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
-
+            builder.Services.AddMudServices();
 
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.ConfigureSqlContext(builder.Configuration);

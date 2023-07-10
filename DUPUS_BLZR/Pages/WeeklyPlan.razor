@@ -1,0 +1,27 @@
+﻿@page "/weeklyplan"
+
+<PageTitle>Weekly Plan</PageTitle>
+
+<SfSchedule TValue=WeeklyPlanDto Height="750px" @bind-SelectedDate="@CurrentDate">
+    <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+    <ScheduleViews>
+        <ScheduleView Option="View.Day"></ScheduleView>
+        <ScheduleView Option="View.Week"></ScheduleView>
+        <ScheduleView Option="View.WorkWeek"></ScheduleView>
+        <ScheduleView Option="View.Month"></ScheduleView>
+        <ScheduleView Option="View.Agenda"></ScheduleView>
+    </ScheduleViews>
+</SfSchedule>
+
+@code {
+
+    DateTime CurrentDate = DateTime.Now;
+
+    List<WeeklyPlanDto> DataSource = new List<WeeklyPlanDto>
+    {
+       new WeeklyPlanDto
+       {
+           Id = 1, Subject = "Paris", StartTime = new DateTime(2023, 7, 11, 10, 0, 0) , EndTime = new DateTime(2023, 7, 11, 12, 0, 0)
+       }
+    };
+}
