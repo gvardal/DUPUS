@@ -1,6 +1,8 @@
-﻿namespace Entities.Dtos
+﻿using System.ComponentModel;
+
+namespace Entities.Dtos
 {
-    public class TaskData
+    public class TaskData 
     {
         public int TaskId { get; set; }
         public string TaskName { get; set; } = string.Empty;
