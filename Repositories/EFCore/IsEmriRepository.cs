@@ -51,7 +51,7 @@ namespace Repositories.EFCore
                     //resource = s.KonumID,
                     //predecessor = s.OncekiIsEmriRotaID,
                     duration = Convert.ToInt32(s.PlanlananTamamlanmaZamani / 60),
-                    progress = s.GerceklesenCikti == 0 ? 0 : Convert.ToDecimal((s.GerceklesenCikti / s.PlanlananGirdi)),
+                    progress = s.GerceklesenCikti == 0 ? 0 : Convert.ToDecimal((s.GerceklesenCikti / s.PlanlananGirdi) * 100),
                 }).OrderBy(O=> O.taskName).ThenBy(O=> O.startDate);
             if (tasks is not null)
             {

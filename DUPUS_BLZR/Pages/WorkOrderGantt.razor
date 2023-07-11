@@ -5,7 +5,7 @@
 
 <div class="row">
     <SfGantt DataSource="@TaskCollection" Height="750px" EnableRowVirtualization ShowColumnMenu AllowFiltering AllowSelection HighlightWeekends
-             Toolbar="@(new List<string>() {"Update","Edit","Cancel" ,"Search" })">
+             Toolbar="@(new List<string>() {"Edit","Search" })">
         <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" DurationUnit="DurationUnit"
                          Progress="Progress" ParentID="ParentId">
         </GanttTaskFields>
@@ -15,7 +15,7 @@
             <GanttColumn Field="TaskName" HeaderText="Task Name" Width="350"></GanttColumn>
             <GanttColumn Field="StartDate" HeaderText="Start Date" Format="dd.MM.yyy" Width="125"></GanttColumn>
             <GanttColumn Field="Duration" HeaderText="Duration" Width="125"></GanttColumn>
-            <GanttColumn Field="Progress" HeaderText="Progress" Format="P0" Width="125"></GanttColumn>
+            <GanttColumn Field="Progress" HeaderText="Progress" Width="125" Format="F2"></GanttColumn>
         </GanttColumns>
         <GanttEditSettings AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
         <GanttEvents TValue="TaskData" OnActionComplete="onActionComplete"></GanttEvents>
