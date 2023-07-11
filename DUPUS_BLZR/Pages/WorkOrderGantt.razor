@@ -4,20 +4,25 @@
 <PageTitle>Work Orders</PageTitle>
 
 <div class="row">
-    <SfGantt DataSource="@TaskCollection" Height="750px" EnableRowVirtualization ShowColumnMenu AllowFiltering AllowSelection
-    Toolbar="@(new List<string>() {"Update","Edit","Cancel" ,"Search" })">
-    <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration"
-    Progress="Progress" ParentID="ParentId">
-    </GanttTaskFields>
-    <GanttSplitterSettings ColumnIndex="5"></GanttSplitterSettings>
-    <GanttColumns>
-    <GanttColumn Field="TaskId" HeaderText="Task ID" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" Visible="false"></GanttColumn>
-    <GanttColumn Field="TaskName" HeaderText="Task Name" Width="350"></GanttColumn>
-    <GanttColumn Field="StartDate" HeaderText="Start Date" Format="dd.MM.yyy" Width="125"></GanttColumn>
-    <GanttColumn Field="Duration" HeaderText="Duration" Width="125"></GanttColumn>
-    <GanttColumn Field="Progress" HeaderText="Progress" Format="P0" Width="125"></GanttColumn>
-    </GanttColumns>
-    <GanttEditSettings AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
+    <SfGantt DataSource="@TaskCollection" Height="750px" EnableRowVirtualization ShowColumnMenu AllowFiltering AllowSelection HighlightWeekends
+             Toolbar="@(new List<string>() {"Update","Edit","Cancel" ,"Search" })">
+        <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" DurationUnit="DurationUnit"
+                         Progress="Progress" ParentID="ParentId">
+        </GanttTaskFields>
+        <GanttSplitterSettings ColumnIndex="5"></GanttSplitterSettings>
+        <GanttColumns>
+            <GanttColumn Field="TaskId" HeaderText="Task ID" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" Visible="false"></GanttColumn>
+            <GanttColumn Field="TaskName" HeaderText="Task Name" Width="350"></GanttColumn>
+            <GanttColumn Field="StartDate" HeaderText="Start Date" Format="dd.MM.yyy" Width="125"></GanttColumn>
+            <GanttColumn Field="Duration" HeaderText="Duration" Width="125"></GanttColumn>
+            <GanttColumn Field="Progress" HeaderText="Progress" Format="P0" Width="125"></GanttColumn>
+        </GanttColumns>
+        <GanttEditSettings AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
+        <GanttEvents TValue="TaskData" OnActionComplete="onActionComplete"></GanttEvents>
+        <GanttTimelineSettings>
+            <GanttTopTierSettings Unit="TimelineViewMode.Month" Format="MMM"></GanttTopTierSettings>
+            <GanttBottomTierSettings Unit="TimelineViewMode.Day"></GanttBottomTierSettings>
+        </GanttTimelineSettings>
     </SfGantt>
 
 </div>
@@ -25,7 +30,7 @@
 
 @code {
 
-    private List<TaskData> TaskCollection { get; set; }
+    private List<TaskData>? TaskCollection { get; set; }
 
     protected override void OnInitialized()
     {
@@ -45,6 +50,7 @@
                         TaskId = wo.TaskId,
                         TaskName = wo.TaskName,
                         StartDate = wo.StartDate,
+                        Duration = wo.Duration,
                         DurationUnit = wo.DurationUnit,
                         Progress = wo.Progress,
                         ParentId = wo.ParentId
@@ -54,10 +60,37 @@
         return TaskCollection;
     }
 
-    public void OnActionComplete(GanttActionEventArgs<TaskData> args)
+    public void onActionComplete(GanttActionEventArgs<TaskData> args)
     {
-        //Here, you can customize your code.
-        Console.WriteLine("Action Complete");
+        if (args.RequestType == Syncfusion.Blazor.Gantt.Action.Save)
+        {
+            if (args.ModifiedRecords.Count > 0)
+            {
+                foreach (var cwo in args.ModifiedRecords)
+                {
+                    UYIsEmriRotasi? rotaBilgisi = _manager.IsEmriRotaService.GetIsEmriRotaById(Convert.ToInt32(cwo["TaskId"].ToString()), true).FirstOrDefault();
+                    if (rotaBilgisi is not null)
+                    {
+                        TimeSpan ts = Convert.ToDateTime(cwo["EndDate"].ToString()) - Convert.ToDateTime(cwo["StartDate"].ToString());
+                        rotaBilgisi.PlanlananBaslamaTarihi = Convert.ToDateTime(cwo["StartDate"].ToString());
+                        rotaBilgisi.PlanlananBitisTarihi = Convert.ToDateTime(cwo["EndDate"].ToString());
+                        rotaBilgisi.PlanlananTamamlanmaZamani = Convert.ToSingle(ts.TotalSeconds);
+                        rotaBilgisi.DuzenleyenCalisanID = 6;
+                        rotaBilgisi.DuzenlemeTarihi = DateTime.Now;
+                        rotaBilgisi.SonErisenCalisanID = 6;
+                        rotaBilgisi.SonErisimTarihi = DateTime.Now;
+
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(_manager.IsEmriRotaService.updateIsEmriRotasi(rotaBilgisi));
+                        Console.ResetColor();
+                    }
+                    
+                }
+                
+            }
+        }
     }
+
+
 
 }
