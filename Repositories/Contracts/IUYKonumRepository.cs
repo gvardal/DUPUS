@@ -4,7 +4,7 @@ namespace Repositories.Contracts
 {
     public interface IUYKonumRepository : IRepositoryBase<UYKonum>
     {
-        IQueryable<UYKonum> GetAllKonumList();
-        IQueryable<UYKonum> GetAllKonumByKonumId(byte id);
+        IQueryable<UYKonum> GetAllKonumList(bool trackChanges);
+        IQueryable<UYKonum> GetAllKonumByKonumId(byte id, bool trackChanges);
     }
 }

@@ -39,7 +39,7 @@
     private List<ResourceData> GetResource()
     {
         ResourceCollection.Clear();
-        var result = _manager.KonumService.GanttResourceGroup(21);
+        var result = _manager.KonumService.GanttResourceGroup(21,false);
         if (result is not null)
         {
             foreach (var rsc in result)

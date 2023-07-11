@@ -82,9 +82,9 @@ namespace Repositories.EFCore
             return _context.UYIsEmriDurumu.AsNoTracking();
         }
 
-        public IQueryable<UYIsEmri> GetAllIsEmriList() => GetAll();
+        public IQueryable<UYIsEmri> GetAllIsEmriList(bool trackChanges) => GetAll(trackChanges);
 
-        public IQueryable<UYIsEmri> IsEmriById(int id) => GetByCondition(x => x.IsEmriID.Equals(id));
+        public IQueryable<UYIsEmri> IsEmriById(int id, bool trackChanges) => GetByCondition(x => x.IsEmriID.Equals(id),trackChanges);
 
 
         // For Blazor Project 
@@ -100,12 +100,12 @@ namespace Repositories.EFCore
                     taskId = s.IsEmriRotaID,
                     taskName = s.IsEmri!.Urun!.Adi,
                     startDate = s.PlanlananBaslamaTarihi,
-                    endDate = s.PlanlananBaslamaTarihi.AddSeconds(Convert.ToDouble(s.PlanlananTamamlanmaZamani)),
+                    endDate = s.PlanlananBitisTarihi,
                     resource = s.KonumID,
                     predecessor = s.OncekiIsEmriRotaID,
                     duration = Convert.ToInt32(s.PlanlananTamamlanmaZamani / 60),
                     progress = s.GerceklesenCikti == 0 ? 0 : Convert.ToDecimal((s.GerceklesenCikti / s.PlanlananGirdi)),
-                });
+                }).AsNoTracking();
 
             if (result is not null)
             {

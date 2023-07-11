@@ -15,7 +15,7 @@ namespace DUPUS_BLZR.Data
         public List<ResourceData> GanttResources()
         {
             List<ResourceData> GanttResourcesCollection = new List<ResourceData>();
-            var resources = _manager.KonumService.GanttResourceGroup(21);
+            var resources = _manager.KonumService.GanttResourceGroup(21,false);
             if (resources is not null)
             {
                 foreach (var resource in resources)

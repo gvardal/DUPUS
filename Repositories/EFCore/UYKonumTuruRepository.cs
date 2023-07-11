@@ -9,6 +9,6 @@ namespace Repositories.EFCore
         {
         }
 
-        public IQueryable<UYKonumTuru> GetAllKonumTuru() => GetAll();
+        public IQueryable<UYKonumTuru> GetAllKonumTuru(bool trackChanges) => GetAll(trackChanges);
     }
 }

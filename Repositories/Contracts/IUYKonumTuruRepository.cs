@@ -4,6 +4,6 @@ namespace Repositories.Contracts
 {
     public interface IUYKonumTuruRepository : IRepositoryBase<UYKonumTuru>
     {
-        IQueryable<UYKonumTuru> GetAllKonumTuru();
+        IQueryable<UYKonumTuru> GetAllKonumTuru(bool trackChanges);
     }
 }

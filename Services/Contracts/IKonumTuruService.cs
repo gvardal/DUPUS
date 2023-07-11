@@ -4,6 +4,6 @@ namespace Services.Contracts
 {
     public interface IKonumTuruService
     {
-        IEnumerable<UYKonumTuru> GetAllKonumTuru();
+        IEnumerable<UYKonumTuru> GetAllKonumTuru(bool trackChanges);
     }
 }

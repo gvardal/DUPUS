@@ -17,7 +17,7 @@ namespace Services
         {
             _mapper = mapper;
             _isEmriServices = new Lazy<IIsEmriService>(() => new IsEmriService(repositoryManager));
-            _isEmriRotaServices = new Lazy<IIsEmriRotaService>(() => new IsEmriRotaService(repositoryManager,_mapper));
+            _isEmriRotaServices = new Lazy<IIsEmriRotaService>(() => new IsEmriRotaService(repositoryManager));
             _konumTuruServices = new Lazy<IKonumTuruService>(() => new KonumTuruService(repositoryManager));
             _konumServices = new Lazy<IKonumService>(() => new KonumService(repositoryManager,mapper));
             _urunlerServices = new Lazy<IUrunlerService>(() => new UrunlerService(repositoryManager));

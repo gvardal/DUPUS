@@ -5,8 +5,8 @@ namespace Repositories.Contracts
 {
     public interface IIsEmriRotaRepository : IRepositoryBase<UYIsEmriRotasi>
     {
-        IQueryable<UYIsEmriRotasi> GetAllIsEmriRotaList();
-        IQueryable<UYIsEmriRotasi> IsEmriRotasiById(int id);
+        IQueryable<UYIsEmriRotasi> GetAllIsEmriRotaList(bool trackChanges);
+        IQueryable<UYIsEmriRotasi> IsEmriRotasiById(int id,bool trackChanges);
         void UpdateIsEmriRotasi (UYIsEmriRotasi isEmriRotasi);
     }
 }

@@ -17,16 +17,16 @@ namespace Services
             _mapper = mapper;
         }
 
-        public IEnumerable<GanttResourceGroupDto> GanttResourceGroup(byte id)
+        public IEnumerable<GanttResourceGroupDto> GanttResourceGroup(byte id, bool trackChanges)
         {
-            var konumList = _manager.UYKonum.GetAllKonumByKonumId(id);
+            var konumList = _manager.UYKonum.GetAllKonumByKonumId(id, trackChanges);
             var resourceGroup = _mapper.Map<List<GanttResourceGroupDto>>(konumList);
             return resourceGroup;
         }
 
-        public IEnumerable<UYKonum> GetAllKonumByKonumId(byte id) => _manager.UYKonum.GetAllKonumByKonumId(id);
+        public IEnumerable<UYKonum> GetAllKonumByKonumId(byte id, bool trackChanges) => _manager.UYKonum.GetAllKonumByKonumId(id, trackChanges);
 
-        public IEnumerable<UYKonum> GetAllKonumList() => _manager.UYKonum.GetAllKonumList();
+        public IEnumerable<UYKonum> GetAllKonumList(bool trackChanges) => _manager.UYKonum.GetAllKonumList(trackChanges);
 
         
     }

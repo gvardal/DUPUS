@@ -9,13 +9,13 @@ namespace Repositories.EFCore
         {
         }
 
-        public IQueryable<UYUrunler> GetAllUrunList() => GetAll();
+        public IQueryable<UYUrunler> GetAllUrunList(bool trackChanges) => GetAll(trackChanges);
 
-        public UYUrunler? GetUrunById(int id) => GetByCondition(x => x.UrunID == id).FirstOrDefault();
+        public UYUrunler? GetUrunById(int id, bool trackChanges) => GetByCondition(x => x.UrunID == id,trackChanges).FirstOrDefault();
 
-        public string UrunAdi(int id)
+        public string UrunAdi(int id, bool trackChanges)
         {
-            return GetByCondition(x => x.UrunID == id).First().Adi!;
+            return GetByCondition(x => x.UrunID == id, trackChanges).First().Adi!;
         }
     }
 }

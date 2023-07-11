@@ -56,7 +56,7 @@
 
     protected override void OnInitialized()
     {
-        var resources = _manager.KonumService.GanttResourceGroup(21);
+        var resources = _manager.KonumService.GanttResourceGroup(21,false);
         if (resources is not null)
         {
             foreach (var resource in resources)
@@ -96,23 +96,25 @@
     {
         if (args.ActionType == ActionType.EventChange)
         {
-            Console.WriteLine($"Değişen Kayıt Sayısı: {args.ChangedRecords.Count}");
             if (args.ChangedRecords.Count > 0)
             {
                 foreach (var cwo in args.ChangedRecords)
                 {
-                    Console.WriteLine($"Değişen Kayıt Id: {args.ChangedRecords.First().Id}");
-                    UYIsEmriRotasi? rotaBilgisi = _manager.IsEmriRotaService.GetIsEmriRotaById(cwo.Id).FirstOrDefault();
+                    UYIsEmriRotasi? rotaBilgisi = _manager.IsEmriRotaService.GetIsEmriRotaById(cwo.Id,true).FirstOrDefault();
                     if (rotaBilgisi is not null)
                     {
+                        TimeSpan ts = cwo.EndTime - cwo.StartTime;
                         rotaBilgisi.PlanlananBaslamaTarihi = cwo.StartTime;
                         rotaBilgisi.PlanlananBitisTarihi = cwo.EndTime;
+                        rotaBilgisi.PlanlananTamamlanmaZamani = Convert.ToSingle(ts.TotalSeconds);
                         rotaBilgisi.DuzenleyenCalisanID = 6;
                         rotaBilgisi.DuzenlemeTarihi = DateTime.Now;
                         rotaBilgisi.SonErisenCalisanID = 6;
                         rotaBilgisi.SonErisimTarihi = DateTime.Now;
-                        _manager.IsEmriRotaService.updateIsEmriRotasi(rotaBilgisi);
-                        Console.WriteLine($"Is Emri Update Edildi.Is Emri Rota ID : {cwo.Id}");
+
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(_manager.IsEmriRotaService.updateIsEmriRotasi(rotaBilgisi));
+                        Console.ResetColor();
                     }
                 }
             }

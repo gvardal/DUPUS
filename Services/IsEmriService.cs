@@ -26,11 +26,11 @@ namespace Services
             return result;
         }
 
-        public IEnumerable<UYIsEmri> GetAllIsEmri() => _manager.IsEmri.GetAllIsEmriList().Take(5);
+        public IEnumerable<UYIsEmri> GetAllIsEmri(bool trackChanges) => _manager.IsEmri.GetAllIsEmriList(trackChanges).Take(5);
 
         public IEnumerable<UYIsEmriDurumu> GetAllIsEmriDurumu() => _manager.IsEmri.GetAllIsEmriDurumuList();
 
-        public UYIsEmri? GetIsEmriById(int id) => _manager.IsEmri.IsEmriById(id).SingleOrDefault();
+        public UYIsEmri? GetIsEmriById(int id, bool trackChanges) => _manager.IsEmri.IsEmriById(id, trackChanges).SingleOrDefault();
 
         public UYIsEmriDurumu? GetIsEmriDurumuById(int id) => _manager.IsEmri.GetIsEmriDurumuById(id);
 

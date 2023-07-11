@@ -13,6 +13,6 @@ namespace Services
             _manager = manager;
         }
 
-        public IEnumerable<UYKonumTuru> GetAllKonumTuru() => _manager.UYKonumTuru.GetAllKonumTuru();
+        public IEnumerable<UYKonumTuru> GetAllKonumTuru(bool trackChanges) => _manager.UYKonumTuru.GetAllKonumTuru(trackChanges);
     }
 }

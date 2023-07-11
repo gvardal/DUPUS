@@ -1,7 +1,4 @@
-﻿using Entities.Dtos;
-using Entities.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Entities.Models;
 using Repositories.Contracts;
 
 namespace Repositories.EFCore
@@ -12,18 +9,18 @@ namespace Repositories.EFCore
         {
         }
 
-        public IQueryable<UYIsEmriRotasi> GetAllIsEmriRotaList() => GetAll();
+        public IQueryable<UYIsEmriRotasi> GetAllIsEmriRotaList(bool trackChanges) => GetAll(trackChanges);
 
-        public IQueryable<UYIsEmriRotasi> IsEmriRotasiById(int id)
+        public IQueryable<UYIsEmriRotasi> IsEmriRotasiById(int id, bool trackChanges)
         {
-            IQueryable<UYIsEmriRotasi> result = GetByCondition(x => x.IsEmriRotaID.Equals(id)).AsNoTracking();
+            IQueryable<UYIsEmriRotasi> result = GetByCondition(x => x.IsEmriRotaID.Equals(id), trackChanges);
             return result;
         }
 
         public void UpdateIsEmriRotasi(UYIsEmriRotasi isEmriRotasi)
         {
             Update(isEmriRotasi);
-
+            
         }
     }
 }

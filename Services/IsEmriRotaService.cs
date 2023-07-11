@@ -10,20 +10,20 @@ namespace Services
     public class IsEmriRotaService : IIsEmriRotaService
     {
         private readonly IRepositoryManager _manager;
-        private readonly IMapper _mapper;
 
-        public IsEmriRotaService(IRepositoryManager manager, IMapper mapper)
+
+        public IsEmriRotaService(IRepositoryManager manager)
         {
             _manager = manager;
-            _mapper = mapper;
         }
 
-        public IQueryable<UYIsEmriRotasi> GetIsEmriRotaById(int isEmriRotaId) => _manager.IsEmriRota.IsEmriRotasiById(isEmriRotaId);
+        public IQueryable<UYIsEmriRotasi> GetIsEmriRotaById(int isEmriRotaId, bool trackChanges) => _manager.IsEmriRota.IsEmriRotasiById(isEmriRotaId,trackChanges);
 
-        public void updateIsEmriRotasi(UYIsEmriRotasi isEmriRota)
+        public string updateIsEmriRotasi(UYIsEmriRotasi isEmriRota)
         {
             _manager.IsEmriRota.UpdateIsEmriRotasi(isEmriRota);
             _manager.Save();
+            return $"{isEmriRota.IsEmriRotaID} Updated Successfully";
         }
 
     }

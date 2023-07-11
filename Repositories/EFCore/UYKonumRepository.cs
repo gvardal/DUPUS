@@ -9,8 +9,8 @@ namespace Repositories.EFCore
         {
         }
 
-        public IQueryable<UYKonum> GetAllKonumByKonumId(byte id) => GetByCondition(x=> x.KonumTuruID.Equals(id));
+        public IQueryable<UYKonum> GetAllKonumByKonumId(byte id, bool trackChanges) => GetByCondition(x=> x.KonumTuruID.Equals(id),trackChanges);
 
-        public IQueryable<UYKonum> GetAllKonumList() => GetAll();
+        public IQueryable<UYKonum> GetAllKonumList(bool trackChanges) => GetAll(trackChanges);
     }
 }

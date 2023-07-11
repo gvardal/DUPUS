@@ -13,8 +13,8 @@ namespace Services
             _manager = manager;
         }
 
-        public UYUrunler? GetUrunById(int id) => _manager.UYUrunler.GetUrunById(id);
+        public UYUrunler? GetUrunById(int id, bool trackChanges) => _manager.UYUrunler.GetUrunById(id, trackChanges);
 
-        public IEnumerable<UYUrunler> GetUrunlerList() => _manager.UYUrunler.GetAllUrunList();
+        public IEnumerable<UYUrunler> GetUrunlerList(bool trackChanges) => _manager.UYUrunler.GetAllUrunList(trackChanges);
     }
 }

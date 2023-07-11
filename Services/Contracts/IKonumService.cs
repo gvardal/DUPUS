@@ -5,8 +5,8 @@ namespace Services.Contracts
 {
     public interface IKonumService
     {
-        IEnumerable<UYKonum> GetAllKonumList();
-        IEnumerable<UYKonum> GetAllKonumByKonumId(byte id);
-        IEnumerable<GanttResourceGroupDto> GanttResourceGroup(byte id);        
+        IEnumerable<UYKonum> GetAllKonumList(bool trackChanges);
+        IEnumerable<UYKonum> GetAllKonumByKonumId(byte id, bool trackChanges);
+        IEnumerable<GanttResourceGroupDto> GanttResourceGroup(byte id, bool trackChanges);        
     }
 }

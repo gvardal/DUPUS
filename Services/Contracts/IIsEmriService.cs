@@ -5,10 +5,10 @@ namespace Services.Contracts
 {
     public interface IIsEmriService
     {
-        IEnumerable<UYIsEmri> GetAllIsEmri();
+        IEnumerable<UYIsEmri> GetAllIsEmri(bool trackChanges);
         IEnumerable<UYIsEmriDurumu> GetAllIsEmriDurumu();
         UYIsEmriDurumu? GetIsEmriDurumuById(int id);
-        UYIsEmri? GetIsEmriById(int id);
+        UYIsEmri? GetIsEmriById(int id, bool trackChanges);
 
         List<TaskData> GanttTasks();
         List<GanttMainTaskDto> GanttMainTasks();
