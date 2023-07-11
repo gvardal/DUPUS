@@ -1,0 +1,53 @@
+﻿@page "/workordergantt"
+@inject IServiceManager _manager
+
+<PageTitle>Work Orders</PageTitle>
+
+<div class="row">
+    <SfGantt DataSource="@TaskCollection" AllowFiltering Height="750px" EnableRowVirtualization>
+        <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" DurationUnit="DurationUnit"
+                         Progress="Progress" ParentID="ParentId">
+        </GanttTaskFields>
+        <GanttSplitterSettings ColumnIndex="5"></GanttSplitterSettings>
+        <GanttColumns>
+            <GanttColumn Field="TaskId" HeaderText="Task ID" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" Visible="false"></GanttColumn>
+            <GanttColumn Field="TaskName" HeaderText="Task Name" Width="350"></GanttColumn>
+            <GanttColumn Field="StartDate" HeaderText="Start Date" Format="dd.MM.yyy" Width="125"></GanttColumn>
+            <GanttColumn Field="Duration" HeaderText="Duration" Width="125"></GanttColumn>
+            <GanttColumn Field="Progress" HeaderText="Progress" Format="P0" Width="125"></GanttColumn>
+        </GanttColumns>
+    </SfGantt>
+</div>
+
+
+@code {
+    private List<TaskData> TaskCollection = new();
+
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = GetWorkOrders();
+    }
+
+    private List<TaskData> GetWorkOrders()
+    {
+        TaskCollection.Clear();
+        var workOrders = _manager.IsEmriService.GanttTasks();
+        if (workOrders is not null)
+        {
+            foreach (var wo in workOrders)
+            {
+                TaskCollection.Add(new TaskData
+                    {
+                        TaskId = wo.TaskId,
+                        TaskName = wo.TaskName,
+                        StartDate = wo.StartDate,
+                        DurationUnit = wo.DurationUnit,
+                        Duration = wo.Duration,
+                        Progress = wo.Progress,
+                        ParentId = wo.ParentId
+                    });
+            }
+        }
+        return TaskCollection;
+    }
+}
