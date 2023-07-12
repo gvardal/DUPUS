@@ -76,7 +76,7 @@
         if (Values is not null)
         {
             SelectedResource = Values.First().Text!;
-            var result = _manager.IsEmriService.GetWeeklyPlanWorkOrders(SelectedResourceId);
+            var result = _manager.IsEmriService.GetWeeklyPlanWorkOrders(SelectedResourceId!);
         }
 
     }

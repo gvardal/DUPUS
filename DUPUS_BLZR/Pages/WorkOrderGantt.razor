@@ -18,19 +18,17 @@
             <GanttColumn Field="Progress" HeaderText="Progress" Width="125" Format="F2"></GanttColumn>
         </GanttColumns>
         <GanttEditSettings AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
-        <GanttEvents TValue="TaskData" OnActionComplete="onActionComplete"></GanttEvents>
+        @*<GanttEvents TValue="TaskData" OnActionComplete="onActionComplete"></GanttEvents>*@
         <GanttTimelineSettings>
             <GanttTopTierSettings Unit="TimelineViewMode.Month" Format="MMM"></GanttTopTierSettings>
             <GanttBottomTierSettings Unit="TimelineViewMode.Day"></GanttBottomTierSettings>
         </GanttTimelineSettings>
     </SfGantt>
-
 </div>
 
 
 @code {
-
-    private List<TaskData>? TaskCollection { get; set; }
+    private List<TaskData>? TaskCollection = new();
 
     protected override void OnInitialized()
     {
@@ -53,43 +51,47 @@
                         Duration = wo.Duration,
                         DurationUnit = wo.DurationUnit,
                         Progress = wo.Progress,
-                        ParentId = wo.ParentId
+                        ParentId = wo.ParentId,
+                        Resources = wo.Resources
                     });
             }
         }
         return TaskCollection;
     }
 
-    public void onActionComplete(GanttActionEventArgs<TaskData> args)
-    {
-        if (args.RequestType == Syncfusion.Blazor.Gantt.Action.Save)
-        {
-            if (args.ModifiedRecords.Count > 0)
-            {
-                foreach (var cwo in args.ModifiedRecords)
-                {
-                    UYIsEmriRotasi? rotaBilgisi = _manager.IsEmriRotaService.GetIsEmriRotaById(Convert.ToInt32(cwo["TaskId"].ToString()), true).FirstOrDefault();
-                    if (rotaBilgisi is not null)
-                    {
-                        TimeSpan ts = Convert.ToDateTime(cwo["EndDate"].ToString()) - Convert.ToDateTime(cwo["StartDate"].ToString());
-                        rotaBilgisi.PlanlananBaslamaTarihi = Convert.ToDateTime(cwo["StartDate"].ToString());
-                        rotaBilgisi.PlanlananBitisTarihi = Convert.ToDateTime(cwo["EndDate"].ToString());
-                        rotaBilgisi.PlanlananTamamlanmaZamani = Convert.ToSingle(ts.TotalSeconds);
-                        rotaBilgisi.DuzenleyenCalisanID = 6;
-                        rotaBilgisi.DuzenlemeTarihi = DateTime.Now;
-                        rotaBilgisi.SonErisenCalisanID = 6;
-                        rotaBilgisi.SonErisimTarihi = DateTime.Now;
+    //public void onActionComplete(GanttActionEventArgs<TaskData> args)
+    //{
+    //    if (args.RequestType == Syncfusion.Blazor.Gantt.Action.Save)
+    //    {
+            
+    //        if (args.ModifiedRecords.Count > 0)
+    //        {
+    //            foreach (var cwo in args.ModifiedRecords)
+    //            {
+    //                Console.WriteLine(cwo["TaskId"].ToString());
+    //                UYIsEmriRotasi? rotaBilgisi = _manager.IsEmriRotaService.GetIsEmriRotaById(49797, true).FirstOrDefault(); //Convert.ToInt32(cwo["TaskId"].ToString())
+    //                if (rotaBilgisi is not null)
+    //                {
+    //                    TimeSpan ts = Convert.ToDateTime(cwo["EndDate"].ToString()) - Convert.ToDateTime(cwo["StartDate"].ToString());
+    //                    rotaBilgisi.PlanlananBaslamaTarihi = Convert.ToDateTime(cwo["StartDate"].ToString());
+    //                    rotaBilgisi.PlanlananBitisTarihi = Convert.ToDateTime(cwo["EndDate"].ToString());
+    //                    rotaBilgisi.PlanlananTamamlanmaZamani = Convert.ToSingle(ts.TotalSeconds);
+    //                    rotaBilgisi.DuzenleyenCalisanID = 6;
+    //                    rotaBilgisi.DuzenlemeTarihi = DateTime.Now;
+    //                    rotaBilgisi.SonErisenCalisanID = 6;
+    //                    rotaBilgisi.SonErisimTarihi = DateTime.Now;
 
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine(_manager.IsEmriRotaService.updateIsEmriRotasi(rotaBilgisi));
-                        Console.ResetColor();
-                    }
+    //                    Console.ForegroundColor = ConsoleColor.Red;
+    //                    Console.WriteLine(cwo["TaskId"].ToString());
+    //                    Console.WriteLine(_manager.IsEmriRotaService.updateIsEmriRotasi(rotaBilgisi));
+    //                    Console.ResetColor();
+    //                }
                     
-                }
+    //            }
                 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 
 
 

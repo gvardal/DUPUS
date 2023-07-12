@@ -14,8 +14,11 @@ namespace Entities.Models
         public int? OncekiIsEmriRotaID { get; set; }
         public byte Sira { get; set; }
         public int KonumID { get; set; }
+        public UYKonum? Konum { get; set; }
         public Int16 IslemTuruID { get; set; }
         public int? CalisanID { get; set; }
+
+        [Column(TypeName = "decimal(4, 2)")]
         public decimal? CalisanSayisi { get; set; }
         public byte RotaDurumu { get; set; }
         public byte HazirlikDurumu { get; set; }
@@ -31,17 +34,23 @@ namespace Entities.Models
         public Single? StandartSure { get; set; }
         public Single? Mesafe { get; set; }
         public int? OnSeriKontrolAdedi { get; set; }
+        [Column(TypeName = "decimal(12, 4)")]
         public decimal? LotBuyuklugu { get; set; }
+        [Column(TypeName = "numeric(11, 3)")]
         public decimal OrtalamaCevrimSuresi { get; set; }
         public DateTime? SonCevrimZamani { get; set; }
         public decimal? GerceklesenCikti { get; set; }
         public Int16? Fire { get; set; }
         public decimal? TamamlanmaOrani { get; set; }
         public string? VardiyaKodu { get; set; } = string.Empty;
+
+        [Column(TypeName = "numeric(8, 2)")]
         public decimal? SonVardiyaMiktari { get; set; }
         public Int16 GozSayisi { get; set; }
         public DateTime? GerceklesenBaslamaTarihi { get; set; }
         public DateTime? GerceklesenBitisTarihi { get; set; }
+
+        [Column(TypeName = "numeric(16, 2)")]
         public decimal? GerceklesenTamamlanmaZamani { get; set; }
         public Int16? IsAkisSoruGrubuID { get; set; }
         public Int16? IsAkisSoruGrubuIDAra { get; set; }
@@ -66,6 +75,8 @@ namespace Entities.Models
         public int? KutuNo { get; set; }
         public bool OtomatikDurus { get; set; }
         public int? FasonUrunID { get; set; }
+
+        [Column(TypeName = "decimal(12, 6)")]
         public decimal? KullanilanMiktar { get; set; }
         public int? SecenID { get; set; }
         public bool? Secili { get; set; }

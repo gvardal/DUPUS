@@ -1,88 +1,131 @@
 ﻿@page "/resourcegantt"
 @inject IServiceManager _manager
 
+<PageTitle>Resource Gantt</PageTitle>
 
-<SfGantt DataSource="@TaskCollection" Height="800px" AllowRowDragAndDrop HighlightWeekends
-         Toolbar="@(new List<Object>() { "Add", "Cancel", "Update" , "Delete", "Edit", "CollapseAll", "ExpandAll" })"
-         ViewType="ViewType.ResourceView">
-    <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" Duration="Duration"
-                     DurationUnit="DurationUnit" Progress="Progress" ParentID="ParentId" ResourceInfo="Resources"
-                     Dependency="Predecessor">
-    </GanttTaskFields>
-    <GanttColumns>
-        <GanttColumn Field="TaskId" Visible="false"></GanttColumn>
-        <GanttColumn Field="TaskName" HeaderText="Name" Width="400" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Left"></GanttColumn>
-        <GanttColumn Field="Progress" Format="P0"></GanttColumn>
-        <GanttColumn Field="StartDate" Format="dd.MM.yyyy"></GanttColumn>
-        <GanttColumn Field="Duration"></GanttColumn>
-    </GanttColumns>
-    <GanttResourceFields Group="ResourceGroup" Resources="@ResourceCollection" Id="ResourceId" Name="ResourceName" Unit="ResourceUnit" TResources="ResourceData"></GanttResourceFields>
-    <GanttSplitterSettings ColumnIndex="4"></GanttSplitterSettings>
-    <GanttLabelSettings RightLabel="Resources" TValue="TaskData"></GanttLabelSettings>
-    <GanttEditSettings AllowAdding AllowDeleting AllowEditing AllowTaskbarEditing ShowDeleteConfirmDialog></GanttEditSettings>
-</SfGantt>
+<div class="row">
+    <SfGantt ShowOverallocation="true" DataSource="@TaskCollection" Height="750px" AllowRowDragAndDrop="true"
+             Toolbar="@(new List<Object>() { "Edit", "CollapseAll", "ExpandAll" })" ViewType="ViewType.ResourceView">
+        <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" DurationUnit="DurationUnit" Progress="Progress"
+                         ParentID="ParentId" Work="Work" ResourceInfo="Resources" Dependency="Predecessor">
+        </GanttTaskFields>
+        <GanttSplitterSettings ColumnIndex="5"></GanttSplitterSettings>
+        <GanttColumns>
+            <GanttColumn Field="TaskId" HeaderText="Task ID" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" Visible="false"></GanttColumn>
+            <GanttColumn Field="TaskName" HeaderText="Task Name" Width="350"></GanttColumn>
+            <GanttColumn Field="StartDate" HeaderText="Start Date" Format="dd.MM.yyy" Width="125"></GanttColumn>
+            <GanttColumn Field="Duration" HeaderText="Duration" Width="125"></GanttColumn>
+            <GanttColumn Field="Progress" HeaderText="Progress" Width="125" Format="F2"></GanttColumn>
+        </GanttColumns>
+        <GanttResourceFields Group="ResourceGroup" Resources="@ResourceCollection" Id="ResourceId" Name="ResourceName" Unit="Unit"
+                             TResources="ResourceData"></GanttResourceFields>
+        <GanttLabelSettings RightLabel="Resources" TValue="ResourceTaskData"></GanttLabelSettings>
+        <GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
+        @*<GanttEvents TValue="TaskData" OnActionComplete="onActionComplete"></GanttEvents>*@
+    </SfGantt>
+</div>
 
 
 
 
 @code {
-    private List<TaskData> TaskCollection = new();
-
-    private List<ResourceData> ResourceCollection = new();
-
+    private List<ResourceTaskData> TaskCollection = new List<ResourceTaskData>();
+    private List<ResourceData> ResourceCollection { get; set; }
     protected override void OnInitialized()
     {
-        this.TaskCollection = GetTasks();
-        ResourceCollection = GetResource();
+        this.TaskCollection = GetTaskCollection();
+        this.ResourceCollection = GanttResources();
     }
 
-    private List<ResourceData> GetResource()
+    public List<ResourceData> GanttResources()
     {
-        ResourceCollection.Clear();
-        var result = _manager.KonumService.GanttResourceGroup(21,false);
-        if (result is not null)
+        List<ResourceData> GanttResourcesCollection = new List<ResourceData>();
+        var resources = _manager.KonumService.GanttResourceGroup(21, false);
+        if (resources is not null)
         {
-            foreach (var rsc in result)
+            foreach (var resource in resources)
             {
-                ResourceCollection.Add(
-                    new ResourceData
-                        {
-                            ResourceId = rsc.KonumID,
-                            ResourceName = rsc.Ad,
-                            ResourceGroup = rsc.KonumKodu
-                        });
-            }
-        }
-        return ResourceCollection;
-    }
-
-    private List<TaskData> GetTasks()
-    {
-        List<TaskData> Tasks = new();
-        var result = _manager.IsEmriService.GanttTasks();
-        if (result.Count > 0)
-        {
-            foreach (var task in result)
-            {
-                Tasks.Add(new TaskData
+                GanttResourcesCollection.Add(new ResourceData
                     {
-                        TaskId = task.TaskId,
-                        TaskName = task.TaskName,
-                        StartDate = task.StartDate,
-                        TaskType = "FixedDuration",
-                        Duration = task.Duration,
-                        Progress = task.Progress,
-                        ParentId = task.ParentId,
-                        Resources = task.Resources
+                        ResourceId = resource.KonumID,
+                        ResourceName = resource.Ad,
+                        ResourceGroup = resource.KonumKodu
                     });
             }
-
         }
-        return Tasks;
-
+        return GanttResourcesCollection;
     }
 
+    public class ResourceTaskData
+    {
+        public int TaskId { get; set; }
+        public string TaskName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string? Duration { get; set; }
+        public string DurationUnit { get; set; } = "minutes";
+        public decimal? Progress { get; set; }
+        public int? ParentId { get; set; }
+        public string Predecessor { get; set; }
+        public string Notes { get; set; }
+        public double? Work { get; set; }
+        public string TaskType { get; set; }
+        public List<ResourceData> Resources { get; set; }
+    }
 
+    public List<ResourceTaskData> GetTaskCollection()
+    {
+        TaskCollection.Clear();
+        var workOrders = _manager.IsEmriService.GanttTasks();
+        if (workOrders is not null)
+        {
+            foreach (var wo in workOrders.Take(800))
+            {
+                TaskCollection.Add(new ResourceTaskData()
+                    {
+                        TaskId = wo.TaskId,
+                        TaskName = wo.TaskName,
+                        StartDate = wo.StartDate,
+                        EndDate = wo.EndDate,
+                        Duration = wo.Duration.ToString(),
+                        Progress = wo.Progress,
+                        Resources = new List<ResourceData>() { new ResourceData() { ResourceId = wo.Resources.First().ResourceId } }
+                    });
+            }
+        }
+        return TaskCollection;
+    }
 
+    //public void onActionComplete(GanttActionEventArgs<TaskData> args)
+    //{
+    //    if (args.RequestType == Syncfusion.Blazor.Gantt.Action.Save)
+    //    {
+    //        if (args.ModifiedRecords.Count > 0)
+    //        {
+    //            foreach (var cwo in args.ModifiedRecords)
+    //            {
+    //                //UYIsEmriRotasi? rotaBilgisi = _manager.IsEmriRotaService.GetIsEmriRotaById(Convert.ToInt32(cwo["TaskId"].ToString()), true).FirstOrDefault();
+    //                //if (rotaBilgisi is not null)
+    //                //{
+    //                //    TimeSpan ts = Convert.ToDateTime(cwo["EndDate"].ToString()) - Convert.ToDateTime(cwo["StartDate"].ToString());
+    //                //    rotaBilgisi.PlanlananBaslamaTarihi = Convert.ToDateTime(cwo["StartDate"].ToString());
+    //                //    rotaBilgisi.PlanlananBitisTarihi = Convert.ToDateTime(cwo["EndDate"].ToString());
+    //                //    //rotaBilgisi.PlanlananTamamlanmaZamani = 100;
+    //                //    rotaBilgisi.DuzenleyenCalisanID = 6;
+    //                //    rotaBilgisi.DuzenlemeTarihi = DateTime.Now;
+    //                //    rotaBilgisi.SonErisenCalisanID = 6;
+    //                //    rotaBilgisi.SonErisimTarihi = DateTime.Now;
 
+    //                //    Console.ForegroundColor = ConsoleColor.Red;
+    //                //    Console.WriteLine(_manager.IsEmriRotaService.updateIsEmriRotasi(rotaBilgisi));
+    //                //    Console.ResetColor();
+    //                //}
+    //                Console.ForegroundColor = ConsoleColor.Red;
+    //                Console.WriteLine(cwo["TaskId"].ToString());
+    //                Console.ResetColor();
+    //            }
+
+    //        }
+    //    }
+    //}
 }

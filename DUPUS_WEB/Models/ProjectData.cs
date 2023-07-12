@@ -24,7 +24,7 @@ namespace DUPUS_WEB.Models
                         taskId = task.TaskId,
                         taskName = task.TaskName,
                         startDate = task.StartDate,
-                        duration = task.Duration,
+                        duration = (int)task.Duration!,
                         progress = task.Progress,
                         predecessor = task.Predecessor,
                         resources = task.Resources
@@ -37,7 +37,7 @@ namespace DUPUS_WEB.Models
         public List<ResourceData> ProjectResources()
         {
             List<ResourceData> GanttResourcesCollection = new List<ResourceData>();
-            var resources = _manager.KonumService.GanttResourceGroup(21);
+            var resources = _manager.KonumService.GanttResourceGroup(21,false);
             if (resources is not null)
             {
                 foreach (var resource in resources)
@@ -45,7 +45,7 @@ namespace DUPUS_WEB.Models
                     GanttResourcesCollection.Add(new ResourceData
                     {
                         ResourceId = resource.KonumID,
-                        ResourceName = resource.Ad,
+                        ResourceName = resource.Ad!,
                         ResourceGroup = resource.KonumKodu
                     });
                 }
@@ -56,7 +56,7 @@ namespace DUPUS_WEB.Models
         public List<ResourceListDto> ResourcesList()
         {
             List<ResourceListDto> ResourcesList = new List<ResourceListDto>();
-            var resources = _manager.KonumService.GanttResourceGroup(21);
+            var resources = _manager.KonumService.GanttResourceGroup(21,false);
             if (resources is not null)
             {
                 foreach (var resource in resources)

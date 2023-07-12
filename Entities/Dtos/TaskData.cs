@@ -12,6 +12,7 @@ namespace Entities.Dtos
         public string DurationUnit { get; set; } = "minutes";
         public decimal? Progress { get; set; }
         public int? ParentId { get; set; }
+        public int? Work { get; set; }
         public string? Predecessor { get; set; } 
         public string? Notes { get; set; } = string.Empty;
         public string? TaskType { get; set; } = string.Empty;

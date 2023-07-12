@@ -41,6 +41,7 @@ namespace Repositories.EFCore
             List<TaskData> ganttData = new();
             var tasks = _context.UYIsEmriRotasi
                 .Include(i => i.IsEmri)
+                .Include(i=> i.Konum)
                 .Where(x => !x.IsEmri!.IsEmriDurumID.Equals(0) && !x.IsEmri!.IsEmriDurumID.Equals(7) && !x.IsEmri!.IsEmriDurumID.Equals(8)) //&& x.IsEmri.UrunID.Equals(7806)
                 .Select(s => new
                 {
@@ -48,11 +49,13 @@ namespace Repositories.EFCore
                     taskName = s.IsEmri!.Urun!.Adi,
                     startDate = s.PlanlananBaslamaTarihi,
                     endDate = s.PlanlananBitisTarihi,
-                    //resource = s.KonumID,
+                    resourceId = s.KonumID,
+                    resourceName = s.Konum!.Ad,
+                    recourceGroup = s.Konum!.KonumKodu,
                     //predecessor = s.OncekiIsEmriRotaID,
                     duration = Convert.ToInt32(s.PlanlananTamamlanmaZamani / 60),
                     progress = s.GerceklesenCikti == 0 ? 0 : Convert.ToDecimal((s.GerceklesenCikti / s.PlanlananGirdi) * 100),
-                }).OrderBy(O=> O.taskName).ThenBy(O=> O.startDate);
+                }).OrderBy(O => O.taskName).ThenBy(O => O.startDate);
             if (tasks is not null)
             {
                 foreach (var task in tasks)
@@ -65,7 +68,12 @@ namespace Repositories.EFCore
                         Duration = task.duration,
                         //predecessor = $"{task.predecessor}FS",
                         Progress = task.progress,
-                        //Resources = new List<ResourceData> { new ResourceData { ResourceId = task.resource } }
+                        Resources = new List<ResourceData> {
+                            new ResourceData {
+                                ResourceId = task.resourceId,
+                                ResourceName = task.resourceName!,
+                                ResourceGroup  = task.recourceGroup,
+                            } }
                     });
                 }
             }
@@ -84,7 +92,7 @@ namespace Repositories.EFCore
 
         public IQueryable<UYIsEmri> GetAllIsEmriList(bool trackChanges) => GetAll(trackChanges);
 
-        public IQueryable<UYIsEmri> IsEmriById(int id, bool trackChanges) => GetByCondition(x => x.IsEmriID.Equals(id),trackChanges);
+        public IQueryable<UYIsEmri> IsEmriById(int id, bool trackChanges) => GetByCondition(x => x.IsEmriID.Equals(id), trackChanges);
 
 
         // For Blazor Project 
