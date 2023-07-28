@@ -23,5 +23,6 @@ namespace Repositories.EFCore
         public DbSet<UYIsEmriDurumu> UYIsEmriDurumu { get; set; }
         public DbSet<UYKonumTuru> UYKonumTuru { get; set; }
         public DbSet<UYKonum> UYKonum { get; set; }
+        public DbSet<UYUretimPlani> UYUretimPlani { get; set; }
     }
 }

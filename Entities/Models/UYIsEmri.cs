@@ -11,6 +11,7 @@ namespace Entities.Models
         public byte? FirmaID { get; set; }
         public int? MusteriKodu { get; set; }
         public Int64? UretimPlaniID { get; set; }
+        public UYUretimPlani? UretimPlani { get; set; }
         public int? KesimIsEmriID { get; set; }
         public decimal? KesimSuresi { get; set; }
         public decimal? KesilenMalzemeAgirligi { get; set; }

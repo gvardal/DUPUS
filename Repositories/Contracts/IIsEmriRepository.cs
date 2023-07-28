@@ -15,6 +15,7 @@ namespace Repositories.Contracts
 
         // For Blazor Project
         List<WeeklyPlanDto> WeeklyPlanWorkOrders(string konumId);
+        List<TaskData> GanttUretimPlani();
 
     }
 }

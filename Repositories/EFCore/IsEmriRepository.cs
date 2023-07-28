@@ -32,7 +32,6 @@ namespace Repositories.EFCore
                     mainTask.Add(new GanttMainTaskDto { IsEmriId = (int)main.IsEmri, UrunAdi = main.UrunAdi });
                 }
             }
-
             return mainTask;
         }
 
@@ -133,6 +132,35 @@ namespace Repositories.EFCore
             return weeklyPlan;
         }
 
+        public List<TaskData> GanttUretimPlani()
+        {
+            List<TaskData> ganttData = new();
+            var tasks = _context.UYIsEmriRotasi
+                .Include(i => i.IsEmri)
+                .Include(i => i.IsEmri!.UretimPlani)
+                .Where(x => !x.IsEmri!.IsEmriDurumID.Equals(0) && !x.IsEmri!.IsEmriDurumID.Equals(7) && !x.IsEmri!.IsEmriDurumID.Equals(8)) 
+                .Select(s => new
+                {
+                    taskId = s.IsEmri!.UretimPlaniID,
+                    taskName = string.Empty,
+                    startDate = s.IsEmri!.UretimPlani!.PlanlananBaslamaTarihi,
+                    endDate = s.IsEmri!.UretimPlani!.PlanlananBitimTarihi,
+                }).Distinct().OrderBy(O => O.taskId).ThenBy(O => O.startDate);
+            if (tasks is not null)
+            {
+                foreach (var task in tasks)
+                {
+                    ganttData.Add(new TaskData
+                    {
+                        TaskId = Convert.ToInt32(task.taskId),
+                        TaskName = task.taskName!,
+                        StartDate = task.startDate,
+                        EndDate = task.endDate
+                    });
+                }
+            }
+            return ganttData;
+        }
 
     }
 }

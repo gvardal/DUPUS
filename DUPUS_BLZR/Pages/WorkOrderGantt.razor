@@ -5,7 +5,7 @@
 
 <div class="row">
     <SfGantt DataSource="@TaskCollection" Height="750px" EnableRowVirtualization ShowColumnMenu AllowFiltering AllowSelection HighlightWeekends
-              ScrollToTaskbarOnClick Toolbar="@(new List<string>() {"Edit","Search" })">
+              ScrollToTaskbarOnClick Toolbar="@(new List<string>() {"Edit","Search", "CollapseAll", "ExpandAll" })">
         <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" DurationUnit="DurationUnit"
                          Progress="Progress" ParentID="ParentId" ResourceInfo="Resources">
         </GanttTaskFields>
@@ -17,9 +17,10 @@
             <GanttColumn Field="Duration" HeaderText="Duration" Width="125"></GanttColumn>
             <GanttColumn Field="Progress" HeaderText="Progress" Width="125" Format="F2"></GanttColumn>
         </GanttColumns>
-
-        <GanttResourceFields Resources="@ResourceCollection" Id="ResourceId" Name="ResourceName" Group="ResourceGroup" TResources="ResourceData"></GanttResourceFields>
-        <GanttLabelSettings RightLabel="Resources" TValue="TaskData"></GanttLabelSettings>
+        
+        <GanttResourceFields Group="ResourceGroup" Resources="@ResourceCollection" Id="ResourceId" Name="ResourceName" Unit="Unit"
+                             TResources="ResourceData"></GanttResourceFields>
+        <GanttLabelSettings RightLabel="Resources" TaskLabel="Progress" TValue="TaskData"></GanttLabelSettings>
         
         <GanttEditSettings AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
         <GanttTimelineSettings>
@@ -61,26 +62,24 @@
     private List<TaskData> GetWorkOrders()
     {
         List<TaskData> TaskCollection = new List<TaskData>();
+        
+
+        var uretimPlani = _manager.IsEmriService.GanttUretimPlani();
+        if (uretimPlani is not null )
+        {
+            foreach (var plan in uretimPlani)
+            {
+                TaskCollection.Add(new TaskData
+                {
+                    TaskId = plan.TaskId,
+                    TaskName = plan.TaskName,
+                    StartDate = plan.StartDate,
+                    EndDate = plan.EndDate
+                });
+            }
+        }
+
         var workOrders = _manager.IsEmriService.GanttTasks();
-
-        TaskCollection.Add(new TaskData
-            {
-                TaskId = 389101,
-                TaskName = string.Empty,
-                StartDate = Convert.ToDateTime("2023-06-22 12:03:00"),
-                EndDate = Convert.ToDateTime("2023-06-22 12:03:00"),
-
-            });
-
-        TaskCollection.Add(new TaskData
-            {
-                TaskId = 377851,
-                TaskName = string.Empty,
-                StartDate = Convert.ToDateTime("2023-03-11 10:46:00"),
-                EndDate = Convert.ToDateTime("2023-04-11 12:14:00"),
-
-            });
-
         if (workOrders is not null)
         {
             foreach (var wo in workOrders)

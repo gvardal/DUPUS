@@ -20,6 +20,12 @@ namespace Services
             return result;
         }
 
+        public List<TaskData> GanttUretimPlani()
+        {
+            var result = _manager.IsEmri.GanttUretimPlani();
+            return result;
+        }
+
         public List<GanttMainTaskDto> GanttMainTasks()
         {
             var result = _manager.IsEmri.GanttMainTask();

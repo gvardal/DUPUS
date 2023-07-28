@@ -15,6 +15,6 @@ namespace Services.Contracts
 
         // For Blazor Project
         IEnumerable<WeeklyPlanDto> GetWeeklyPlanWorkOrders(string konumId);
-
+        List<TaskData> GanttUretimPlani();
     }
 }
