@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using Entities.Dtos;
-using Entities.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Entities.Models;
 using Repositories.Contracts;
 using Services.Contracts;
 
@@ -17,7 +14,7 @@ namespace Services
             _manager = manager;
         }
 
-        public IQueryable<UYIsEmriRotasi> GetIsEmriRotaById(int isEmriRotaId, bool trackChanges) => _manager.IsEmriRota.IsEmriRotasiById(isEmriRotaId,trackChanges);
+        public IQueryable<UYIsEmriRotasi> GetIsEmriRotaById(int isEmriRotaId, bool trackChanges) => _manager.IsEmriRota.IsEmriRotasiById(isEmriRotaId, trackChanges);
 
         public string updateIsEmriRotasi(UYIsEmriRotasi isEmriRota)
         {

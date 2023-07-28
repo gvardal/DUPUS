@@ -52,6 +52,7 @@ namespace Repositories.EFCore
                     resourceId = s.KonumID,
                     resourceName = s.Konum!.Ad,
                     recourceGroup = s.Konum!.KonumKodu,
+                    parentId = s.IsEmri.UretimPlaniID,
                     //predecessor = s.OncekiIsEmriRotaID,
                     duration = Convert.ToInt32(s.PlanlananTamamlanmaZamani / 60),
                     progress = s.GerceklesenCikti == 0 ? 0 : Convert.ToDecimal((s.GerceklesenCikti / s.PlanlananGirdi) * 100),
@@ -66,6 +67,7 @@ namespace Repositories.EFCore
                         TaskName = task.taskName!,
                         StartDate = task.startDate,
                         Duration = task.duration,
+                        ParentId = Convert.ToInt32(task.parentId!),
                         //predecessor = $"{task.predecessor}FS",
                         Progress = task.progress,
                         Resources = new List<ResourceData> {
