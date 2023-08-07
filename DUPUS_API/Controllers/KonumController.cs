@@ -17,7 +17,7 @@ namespace DUPUS_API.Controllers
         [HttpGet]
         public IActionResult GetAllKonumList()
         {
-            var entity = _manager.KonumService.GetAllKonumList().Take(5);
+            var entity = _manager.KonumService.GetAllKonumList(false).Take(5);
             if (entity is null)
                 return NotFound();
             return Ok(entity);
@@ -26,7 +26,7 @@ namespace DUPUS_API.Controllers
         [HttpGet("{KonumTuruId:int}")]
         public IActionResult GetAllKonumByKonumId([FromRoute(Name = "KonumTuruId")] byte konumTuruId)
         {
-            var entity = _manager.KonumService.GetAllKonumByKonumId(konumTuruId);
+            var entity = _manager.KonumService.GetAllKonumByKonumId(konumTuruId, false);
             if (entity is null)
                 return NotFound();
             return Ok(entity);
@@ -36,7 +36,7 @@ namespace DUPUS_API.Controllers
         [Route("GanttResourceGroup")]
         public IActionResult GetGanttResourceGroup([FromQuery(Name ="KonumTuru")]byte id)
         {
-            var entity = _manager.KonumService.GanttResourceGroup(id);
+            var entity = _manager.KonumService.GanttResourceGroup(id, false);
             if (entity is null)
                 return NotFound();
             return Ok(entity);

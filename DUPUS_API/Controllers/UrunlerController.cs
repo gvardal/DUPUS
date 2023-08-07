@@ -19,7 +19,7 @@ namespace DUPUS_API.Controllers
         [Route("UrunById")]
         public IActionResult GetUrunById([FromQuery] int id)
         {
-            var entity = _manager.UrunlerService.GetUrunById(id);
+            var entity = _manager.UrunlerService.GetUrunById(id, false);
             if (entity is null)
                 return NotFound();
             return Ok(entity);

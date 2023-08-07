@@ -19,7 +19,7 @@ namespace DUPUS_API.Controllers
         [Route("IsEmriListesi")]
         public IActionResult GetAllIsEmri()
         {
-            var entity = _manager.IsEmriService.GetAllIsEmri().Take(50);
+            var entity = _manager.IsEmriService.GetAllIsEmri(false).Take(50);
             if (entity is null)
                 return NotFound();
             return Ok(entity);
@@ -29,7 +29,7 @@ namespace DUPUS_API.Controllers
         [Route("IsEmriListesiById")]
         public IActionResult GetIsEmriByIsEmriId([FromQuery] int isEmriId = 385090)
         {
-            var entity = _manager.IsEmriService.GetIsEmriById(isEmriId);
+            var entity = _manager.IsEmriService.GetIsEmriById(isEmriId,false);
             if (entity is null)
                 return NotFound();
             return Ok(entity);

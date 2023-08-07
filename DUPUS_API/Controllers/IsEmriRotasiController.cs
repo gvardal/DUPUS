@@ -18,7 +18,7 @@ namespace DUPUS_API.Controllers
         [HttpGet]
         public IActionResult GetAllIsEmriRotasi()
         {
-            var entity = _manager.IsEmriRota.GetAllIsEmriRotaList().Take(10);
+            var entity = _manager.IsEmriRota.GetAllIsEmriRotaList(false).Take(10);
             if (entity is null)
                 return NotFound();
             return Ok(entity);
@@ -27,7 +27,7 @@ namespace DUPUS_API.Controllers
         [HttpGet("{isEmriId:int}")]
         public IActionResult GetIsEmriRotasiByIsEmriId([FromRoute(Name ="isEmriId")]int isEmriId)
         {
-            var entity = _manager.IsEmriRota.IsEmriRotasiById(isEmriId);
+            var entity = _manager.IsEmriRota.IsEmriRotasiById(isEmriId, false);
             if (entity is null)
                 return NotFound();
             return Ok(entity);

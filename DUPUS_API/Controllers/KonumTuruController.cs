@@ -18,7 +18,7 @@ namespace DUPUS_API.Controllers
         [HttpGet]
         public IActionResult GetAllIsEmri()
         {
-            var entity = _manager.KonumTuruService.GetAllKonumTuru();
+            var entity = _manager.KonumTuruService.GetAllKonumTuru(false);
             if (entity is null)
                 return NotFound();
             return Ok(entity);
